@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Treg_Engine", "Treg_Engine\Treg_Engine.csproj", "{C3C4CB18-AA27-4DA2-ABE6-40E637FE8FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rainbow_Cube", "Rainbow_Cube\Rainbow_Cube.csproj", "{830D4D1C-8CD4-4FD3-A2BD-EE375003A329}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3C4CB18-AA27-4DA2-ABE6-40E637FE8FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C4CB18-AA27-4DA2-ABE6-40E637FE8FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C4CB18-AA27-4DA2-ABE6-40E637FE8FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C4CB18-AA27-4DA2-ABE6-40E637FE8FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{830D4D1C-8CD4-4FD3-A2BD-EE375003A329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{830D4D1C-8CD4-4FD3-A2BD-EE375003A329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{830D4D1C-8CD4-4FD3-A2BD-EE375003A329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{830D4D1C-8CD4-4FD3-A2BD-EE375003A329}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
