@@ -76,11 +76,10 @@ namespace Treg_Engine
         }
         public Angle(float Pitch = 0, float Yaw = 0, float Roll = 0)
         {
-            this.Pitch = Pitch;
-            this.Yaw = Yaw;
-            this.Roll = Roll;
-            
-
+            this.pitch = Pitch;
+            this.yaw = Yaw;
+            this.roll = Roll;
+            RecalculateMatrix();
         }
         public Matrix4 RecalculateMatrix()
         {
