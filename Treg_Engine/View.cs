@@ -15,7 +15,7 @@ namespace Treg_Engine
         {
             get
             {
-                return projection; //test
+                return projection;
             }
             set
             {
