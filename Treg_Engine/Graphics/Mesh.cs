@@ -116,45 +116,30 @@ namespace Treg_Engine.Graphics
                             UVs.Add(new Vector2(x, y));
                             break;
                         case "f":
-
                             for (int I = 1; I <= 4; I++)
                             {
                                 if (lineParams.Length > I)
                                 {
                                     string[] parts = lineParams[I].Split('/');
-                                    int[] vertex = new int[3] { 0, 0, 0 };
-                                    if (parts.Length == 1)
-                                    {
-                                        vertex[0] = Convert.ToInt32(parts[0]);
-                                    }
-                                    else if (parts.Length == 2)
-                                    {
-                                        vertex[0] = Convert.ToInt32(parts[0]);
-                                        vertex[1] = Convert.ToInt32(parts[1]);
-                                    }
-                                    else if (parts.Length == 3)
-                                    {
-                                        vertex[0] = Convert.ToInt32(parts[0]);
-                                        vertex[1] = Convert.ToInt32(parts[1]);
-                                        vertex[2] = Convert.ToInt32(parts[2]);
-                                    }
                                     Vector3 Position = Vector3.Zero, Normal = Vector3.Zero;
                                     Vector2 UV = Vector2.Zero;
-                                    if (vertex[0] != 0)
+                                    if (parts.Length >= 1)
                                     {
-                                        Position = Positions[vertex[0] - 1];
+                                        int t = Convert.ToInt32(parts[0]);
+                                        Position = Positions[t- 1];
                                     }
-                                    if (vertex[1] != 0)
+                                    if (parts.Length >= 2)
                                     {
-                                        UV = UVs[vertex[1] - 1];
+                                        int t = Convert.ToInt32(parts[1]);
+                                        UV = UVs[t - 1];
                                         UV.Y *= -1;
                                     }
-                                    if (vertex[2] != 0)
+                                    if (parts.Length >= 3)
                                     {
-                                        Normal = Normals[vertex[2] - 1];
+                                        int t = Convert.ToInt32(parts[2]);
+                                        Normal = Normals[t - 1];
                                     }
                                     Vertex vert = new Vertex(Position, ColorFromHSV(Math.Abs(Position.Y * 50) % 360, 1, 1), Normal, UV);
-
                                     Vertexes.Add(vert);
                                     Telements.Add(pos);
                                     pos++;
