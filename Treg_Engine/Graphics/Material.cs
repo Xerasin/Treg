@@ -9,14 +9,14 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 namespace Treg_Engine.Graphics
 {
-    public class Material
+    public class Texture
     {
-        public Material()
+        public int textureID = 0;
+        public Texture()
         {
-
         }
 
-        public Material(string file)
+        public Texture(string file)
         {
             Bitmap bitmap = new Bitmap(Bitmap.FromFile(file));
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(
@@ -45,17 +45,29 @@ namespace Treg_Engine.Graphics
                 (int)TextureMagFilter.Linear);
             this.textureID = tex;   
         }
+    }
+    public class Material
+    {
+        public Material()
+        {
+
+        }
+        public Material(string file)
+        {
+            texture = new Texture(file);
+        }
+        
         public static void Init()
         {
             debugWhite = new Material();
         }
         public static Material debugWhite;
         public Shader shader = Shader.DefaultShader;
-        public int textureID = 0;
+        public Texture texture = new Texture();
         public void Bind()
         {
-            GL.BindTexture(TextureTarget.Texture2D, textureID);
             GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, this.texture.textureID);
             GL.UseProgram(this.shader.programID);
             this.shader.SetUniformInt("ngl_texture0", 0);
         }
