@@ -147,3 +147,6 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+Treg_Engine/bin/Debug/Treg_Engine.dll
+Rainbow_Cube/bin/Debug/Treg_Engine.dll
+Rainbow_Cube/bin/Debug/Rainbow_Cube.exe

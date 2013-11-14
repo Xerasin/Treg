@@ -233,9 +233,7 @@ namespace Treg_Engine.Graphics
             Matrix4 modelmatrix = Matrix4.Identity;
 
             modelmatrix *= Matrix4.CreateScale(Scale);
-            modelmatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Angle.Roll));
-            modelmatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Angle.Pitch));
-            modelmatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Angle.Yaw));
+            modelmatrix *= Angle.RotationMatrix;
             modelmatrix *= Matrix4.CreateTranslation(Origin);
 
             mat.shader.SetUniformMatrix4("ModelMatrix", modelmatrix);
