@@ -10,11 +10,11 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 namespace Rainbow_Cube.Entities
 {
-    class Teapot : BaseEntity
+    class Popcorn : BaseEntity
     {
-        public Teapot()
+        public Popcorn()
         {
-            mesh = Mesh.LoadFromFile("resources/models/teapot.obj");
+            mesh = Mesh.LoadFromFile("resources/models/popcornmachine.obj");
             material = new Material("resources/materials/popcorn_machine.png");
             this.Scale = Vector3.One * 4f;
         }

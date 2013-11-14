@@ -22,6 +22,6 @@ void main()
 	
 	//vec4 col = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(0.0,1.0,0.0, 1.0), abs(position.x));
 	//color = col;
-	vec4 col = vec4(hsv2rgb(vec3(abs(position.x), 1.0, 1.0)), 1.0);
-	color = (col + texture2D( ngl_texture0, in_UV.xy)) * 0.5;
+	//vec4 col = vec4(hsv2rgb(vec3(abs(position.x), 1.0, 1.0)), 1.0);
+	color = (texture2D( ngl_texture0, in_UV.xy));
 }

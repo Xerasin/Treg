@@ -17,7 +17,11 @@ namespace Rainbow_Cube
         public override void OnLoad()
         {
             base.OnLoad();
-            this.Create<Teapot>();
+            //this.Create<Teapot>();
+            Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
+            Enttiy.Position = Vector3.One * 5;
+            Enttiy = this.Create<Popcorn>();
+            Enttiy.Position = Vector3.One * -5;
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             
         }
