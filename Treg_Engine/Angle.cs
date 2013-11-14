@@ -26,7 +26,6 @@ namespace Treg_Engine
                 RecalculateMatrix();
             }
         }
-
         public float Yaw
         {
             get
@@ -39,7 +38,6 @@ namespace Treg_Engine
                 RecalculateMatrix();
             }
         }
-
         public float Roll
         {
             get
@@ -52,7 +50,6 @@ namespace Treg_Engine
                 RecalculateMatrix();
             }
         }
-
         public Vector3 Up
         {
             get

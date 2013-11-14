@@ -166,7 +166,7 @@ namespace Treg_Engine.Graphics
 
             }
 
-            int size;          Vertex[] vertices = Vertexes.ToArray<Vertex>();
+            Vertex[] vertices = Vertexes.ToArray<Vertex>();
             uint[] elements = Telements.ToArray<uint>();
             return new Mesh(vertices, elements);
             
