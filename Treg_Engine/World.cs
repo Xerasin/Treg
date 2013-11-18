@@ -18,7 +18,7 @@ namespace Treg_Engine
         }
         public virtual void OnLoad()
         {
-
+            Treg_Engine.Graphics.Lighting.Init();
         }
 
         public virtual void OnRender()
@@ -33,6 +33,7 @@ namespace Treg_Engine
             GL.LoadIdentity();
             //GL.LoadMatrix(ref matrix);
             View.ViewMatrix = matrix;
+            Graphics.Lighting.SetupLighting();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             foreach (BaseEntity entity in Entities)
             {

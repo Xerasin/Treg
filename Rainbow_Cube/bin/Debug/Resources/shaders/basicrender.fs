@@ -2,7 +2,8 @@
 precision highp float;
 invariant in vec2 in_UV;
 invariant in vec4 in_Color;
-invariant in vec4 position;
+invariant in vec4 in_position;
+invariant in vec3 in_normal;
 
 uniform sampler2D ngl_texture0;
 

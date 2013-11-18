@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Angle.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Graphics\Lighting.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Shader.cs" />

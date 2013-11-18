@@ -1,4 +1,4 @@
 {
-    "shader": "test",
+    "shader": "basicrender",
     "material": "popcorn_machine.png"
 }
