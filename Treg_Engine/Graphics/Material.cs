@@ -59,7 +59,7 @@ namespace Treg_Engine.Graphics
         
         public static void Init()
         {
-            debugWhite = new Material();
+            debugWhite = Resource.LoadMaterial("debugwhite");
         }
         public static Material debugWhite;
         public Shader shader = Shader.DefaultShader;

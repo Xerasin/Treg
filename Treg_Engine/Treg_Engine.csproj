@@ -59,6 +59,7 @@
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Shader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="View.cs" />
     <Compile Include="Window.cs" />

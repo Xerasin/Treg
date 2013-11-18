@@ -139,7 +139,7 @@ namespace Treg_Engine.Graphics
                                         int t = Convert.ToInt32(parts[2]);
                                         Normal = Normals[t - 1];
                                     }
-                                    Vertex vert = new Vertex(Position, ColorFromHSV(Math.Abs(Position.Y * 50) % 360, 1, 1), Normal, UV);
+                                    Vertex vert = new Vertex(Position, Color.White, Normal, UV);
                                     Vertexes.Add(vert);
                                     Telements.Add(pos);
                                     pos++;
