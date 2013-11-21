@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Treg_Engine;
+using Treg_Engine.Entities;
 using Treg_Engine.Graphics;
 using Rainbow_Cube.Entities;
 namespace Rainbow_Cube
@@ -22,6 +23,24 @@ namespace Rainbow_Cube
             Enttiy.Position = new Vector3(5, -5, -5);
             Enttiy = this.Create<Popcorn>();
             Enttiy.Position = Vector3.One * -5;
+            env_pointlight light = this.Create<env_pointlight>();
+            light.Enabled = true;
+            light.Position = new Vector3(0, -5, -5);
+            light.Color = new Vector3(0.5f, 0f, 0f);
+            light.AmbientIntensity = 0.5f;
+            light.DiffuseIntensity = 1f;
+            light.Constant = 0f;
+            light.Linear = 0.25f;
+            mesh = Mesh.LoadFromFile("resources/models/cube.obj");
+
+            light = this.Create<env_pointlight>();
+            light.Enabled = true;
+            light.Position = new Vector3(0, 4, -5);
+            light.Color = new Vector3(0.5f, 0.5f, 0f);
+            light.AmbientIntensity = 0.5f;
+            light.DiffuseIntensity = 1f;
+            light.Constant = 0f;
+            light.Linear = 0.25f;
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             
         }

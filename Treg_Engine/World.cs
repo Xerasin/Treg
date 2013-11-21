@@ -53,7 +53,7 @@ namespace Treg_Engine
             T entity = new T();
 
             Entities.Add(entity);
-
+            entity.EntIndex = Entities.IndexOf(entity);
             return entity;
         }
     }

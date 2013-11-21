@@ -1,15 +1,13 @@
 #version 330 core
 precision highp float;
+const int MAX_POINT_LIGHTS = 4;
+const int MAX_SPOT_LIGHTS = 4;
+const int MAX_SHADOW_CASTERS = 2;
+
 invariant in vec2 in_UV;
 invariant in vec4 in_Color;
-invariant in vec4 in_position;
+invariant in vec3 in_position;
 invariant in vec3 in_normal;
-
-uniform sampler2D ngl_texture0;
-uniform mat4 ModelMatrix;
-uniform mat4 ProjectionMatrix;
-uniform mat4 ViewMatrix;
-uniform vec3 eyePos;
 
 struct BaseLight
 {
@@ -44,8 +42,17 @@ struct SpotLight
         vec3 Direction;
         float Cutoff;
 };
+uniform sampler2D ngl_texture0;
+uniform mat4 ModelMatrix;
+uniform mat4 ProjectionMatrix;
+uniform mat4 ViewMatrix;
+uniform vec3 eyePos;
 
+
+uniform PointLight gPointLights[MAX_POINT_LIGHTS];
+uniform SpotLight gSpotLights[MAX_SPOT_LIGHTS];
 uniform DirectionalLight gEnviromentalLight;	
+
 layout(location = 0) out vec4 color;
 
 
@@ -63,7 +70,7 @@ vec4 calcLight(BaseLight Light, vec3 Dir, vec3 Normal)
 	vec3 LightColor = Light.Color;
 	
 	vec3 n = normalize( Normal );
-	vec3 l = normalize( Dir );
+	vec3 l = normalize( -Dir );
 	
 	float cosTheta = dot( n, l );
 	vec4 DiffuseColor  = vec4(0, 0, 0, 0); 
@@ -74,7 +81,7 @@ vec4 calcLight(BaseLight Light, vec3 Dir, vec3 Normal)
 		DiffuseColor = vec4(LightColor, 1) * Light.DiffuseIntensity * cosTheta;
 		
 		vec3 difference = normalize(eyePos - in_position.xyz);
-		vec3 reflect = normalize(reflect(-Dir, Normal));
+		vec3 reflect = normalize(reflect(Dir, Normal));
 		float specFactor = dot(difference, reflect);
 		if(specFactor > 0)
 		{
@@ -89,6 +96,25 @@ vec4 CalcEnviromentalLighting( vec3 Normal )
 	return calcLight(gEnviromentalLight.Base, gEnviromentalLight.Direction, Normal);
 }
 
+vec4 CalcPointLight(PointLight l, vec3 Normal)
+{
+	vec3 Direction = in_position - l.Position;
+	float distance = length(Direction);
+	Direction = normalize(Direction);
+	vec4 col = calcLight(l.Base, Direction, Normal);
+	float Cutoff = l.Atten.Constant +
+					l.Atten.Linear * distance +
+					l.Atten.Exp * distance * distance;
+	if (Cutoff > 0)
+	{
+		return col / Cutoff;
+	}
+	else
+	{
+		return vec4(0, 0, 0, 1.0);
+	}
+}
+
 void main()
 {
 	
@@ -96,5 +122,9 @@ void main()
 	//color = col;
 	//vec4 col = vec4(hsv2rgb(vec3(abs(position.x), 1.0, 1.0)), 1.0);
 	vec4 LightCol = CalcEnviromentalLighting( in_normal );
+	for(int i = 0; i < MAX_POINT_LIGHTS; i++)
+	{
+		LightCol += CalcPointLight(gPointLights[i], in_normal);
+	}
 	color = (texture2D( ngl_texture0, in_UV.xy)) * LightCol;
 }
