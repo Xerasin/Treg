@@ -15,8 +15,8 @@ namespace Rainbow_Cube.Entities
     {
         public Popcorn()
         {
-            mesh = Mesh.LoadFromFile("resources/models/popcornmachine.obj");
-            material = Resource.LoadMaterial("popcorn");
+            mesh = Mesh.LoadFromFile("resources/models/cow.obj");
+            material = Resource.LoadMaterial("cow");
             this.Scale = Vector3.One * 4f;
         }
 

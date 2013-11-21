@@ -158,6 +158,10 @@ namespace Treg_Engine.Graphics
         }
         public Mesh(Vertex[] vertices, uint[] elements)
         {
+            this.UploadData(vertices, elements);
+        }
+        public void UploadData(Vertex[] vertices, uint[] elements)
+        {
             if (VAO <= 0)
             {
                 GL.GenVertexArrays(1, out this.VAO);
@@ -183,12 +187,12 @@ namespace Treg_Engine.Graphics
             //UVs
             GL.EnableVertexAttribArray(2);
             GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, true, Vertex.SizeInBytes, 6 * sizeof(float));
-            
+
             //Color
             GL.EnableVertexAttribArray(4);
             GL.VertexAttribPointer(4, 4, VertexAttribPointerType.Float, true, Vertex.SizeInBytes, 8 * sizeof(float));
 
-           
+
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(elements.Length * sizeof(uint)), elements,
                             BufferUsageHint.StaticDraw);
@@ -225,6 +229,7 @@ namespace Treg_Engine.Graphics
             mat.shader.SetUniformMatrix4("ProjectionMatrix", View.ProjectionMatrix);
             mat.shader.SetUniformMatrix4("ViewMatrix", View.ViewMatrix);
             mat.shader.SetUniformFloat("time", Util.Time);
+            mat.shader.SetUniformVector3("eyePos", View.EyePos);
             GL.DrawElements(BeginMode.Triangles, this.NumElements, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             GL.DisableClientState(ArrayCap.VertexArray);

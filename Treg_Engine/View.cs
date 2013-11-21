@@ -34,5 +34,6 @@ namespace Treg_Engine
                 view = value;
             }
         }
+        public static Vector3 EyePos { get; set; }
     }
 }

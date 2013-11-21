@@ -51,7 +51,7 @@ namespace Treg_Engine.Graphics
                 if (status_code != 1)
                     throw new ApplicationException(info);
                 GL.AttachShader(programID, fragmentObject);
-            }
+                }
             GL.LinkProgram(programID);
             GL.UseProgram(programID);
         }
@@ -102,6 +102,13 @@ namespace Treg_Engine.Graphics
 
             int location = GetLocation(name);
             GL.UniformMatrix4(location, false, ref mat);
+        }
+
+        public void SetUniformVector3(string name, Vector3 vec)
+        {
+
+            int location = GetLocation(name);
+            GL.Uniform3(location, vec);
         }
     }
 }

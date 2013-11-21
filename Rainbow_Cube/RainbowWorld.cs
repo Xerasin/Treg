@@ -19,7 +19,7 @@ namespace Rainbow_Cube
             base.OnLoad();
             //this.Create<Teapot>();
             Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
-            Enttiy.Position = Vector3.One * 5;
+            Enttiy.Position = new Vector3(5, -5, -5);
             Enttiy = this.Create<Popcorn>();
             Enttiy.Position = Vector3.One * -5;
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");

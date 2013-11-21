@@ -23,8 +23,8 @@ namespace Treg_Engine
 
         public virtual void OnRender()
         {
-            
-            Matrix4 matrix = Matrix4.LookAt(new Vector3(0f, 15f, 15f), new Vector3(0.1f, 0f, 0.1f), new Vector3(0f, 1f, 0f));
+            View.EyePos = new Vector3(0f, 15f, 15f);
+            Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0.1f, 0f, 0.1f), new Vector3(0f, 1f, 0f));
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Enable(EnableCap.DepthTest);
             //GL.DepthFunc(DepthFunction.Greater);
