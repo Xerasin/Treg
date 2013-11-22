@@ -68,6 +68,7 @@ namespace Treg_Engine.Graphics
         public PointLight Base;
         public Vector3 Direction;
         public float Cutoff;
+        public float DieTime;
     }
     public static class Lighting
     {
@@ -78,6 +79,7 @@ namespace Treg_Engine.Graphics
         private static PointLightLocations[] pointLightLocations = new PointLightLocations[MAX_POINTLIGHTS];
         private static SpotLightLocations[] spotLightLocations = new SpotLightLocations[MAX_SPOTLIGHTS];
         private static Dictionary<int, PointLight> pointLights = new Dictionary<int, PointLight>();
+        private static Dictionary<int, SpotLight> spotLights = new Dictionary<int, SpotLight>();
         public static void Init()
         {
             shader = Resource.LoadShader("basicrender");
@@ -101,6 +103,24 @@ namespace Treg_Engine.Graphics
                 pointLightLocations[I].Base.Diffuse = GL.GetUniformLocation(shader.programID, path + ".Base.DiffuseIntensity");
 
             }
+
+            for (int I = 0; I < MAX_POINTLIGHTS; I++)
+            {
+                string path = string.Format("gSpotLights[{0}]", I);
+
+                spotLightLocations[I].Cutoff = GL.GetUniformLocation(shader.programID, path + ".Cutoff");
+                spotLightLocations[I].Direction = GL.GetUniformLocation(shader.programID, path + ".Direction");
+                spotLightLocations[I].Base.Position = GL.GetUniformLocation(shader.programID, path + ".Base.Position");
+
+                spotLightLocations[I].Base.Atten.Constant = GL.GetUniformLocation(shader.programID, path + ".Base.Atten.Constant");
+                spotLightLocations[I].Base.Atten.Exp = GL.GetUniformLocation(shader.programID, path + ".Base.Atten.Exp");
+                spotLightLocations[I].Base.Atten.Linear = GL.GetUniformLocation(shader.programID, path + ".Base.Atten.Linear");
+
+                spotLightLocations[I].Base.Base.Ambient = GL.GetUniformLocation(shader.programID, path + ".Base.Base.AmbientIntensity");
+                spotLightLocations[I].Base.Base.Color = GL.GetUniformLocation(shader.programID, path + ".Base.Base.Color");
+                spotLightLocations[I].Base.Base.Diffuse = GL.GetUniformLocation(shader.programID, path + ".Base.Base.DiffuseIntensity");
+
+            }
         }
         public static void SetupEnviromentalLight(DirectionalLight light)
         {
@@ -122,24 +142,59 @@ namespace Treg_Engine.Graphics
             GL.Uniform1(pointLightLocations[I].Atten.Constant, light.Atten.Constant);
         }
 
+        public static void SetupSpotLight(SpotLight light, int I)
+        {
+
+            GL.Uniform3(spotLightLocations[I].Direction, light.Direction);
+            GL.Uniform1(spotLightLocations[I].Cutoff, light.Cutoff);
+
+
+            GL.Uniform3(spotLightLocations[I].Base.Base.Color, light.Base.Base.Color);
+            GL.Uniform3(spotLightLocations[I].Base.Position, light.Base.Position);
+            GL.Uniform1(spotLightLocations[I].Base.Base.Ambient, light.Base.Base.Ambient);
+            GL.Uniform1(spotLightLocations[I].Base.Base.Diffuse, light.Base.Base.Diffuse);
+
+            GL.Uniform1(spotLightLocations[I].Base.Atten.Linear, light.Base.Atten.Linear);
+            GL.Uniform1(spotLightLocations[I].Base.Atten.Exp, light.Base.Atten.Exp);
+            GL.Uniform1(spotLightLocations[I].Base.Atten.Constant, light.Base.Atten.Constant);
+        }
+
         public static void SetPointLight(PointLight light, int I)
         {
             pointLights[I] = light;
         }
+        public static void SetSpotLight(SpotLight light, int I)
+        {
+            spotLights[I] = light;
+        }
         public static void Think()
         {
-            List<int> lightsToBeRemoved = new List<int>();
+            List<int> pointLightsToBeRemoved = new List<int>();
             foreach (KeyValuePair<int, PointLight> entry in pointLights)
             {
                 PointLight pLight = entry.Value;
                 if (pLight.DieTime <= Util.Time)
                 {
-                    lightsToBeRemoved.Add(entry.Key);
+                    pointLightsToBeRemoved.Add(entry.Key);
                 }
             }
-            foreach (int light in lightsToBeRemoved)
+            foreach (int light in pointLightsToBeRemoved)
             {
                 pointLights.Remove(light);
+            }
+
+            List<int> spotLightsToBeRemoved = new List<int>();
+            foreach (KeyValuePair<int, SpotLight> entry in spotLights)
+            {
+                SpotLight sLight = entry.Value;
+                if (sLight.DieTime <= Util.Time)
+                {
+                    spotLightsToBeRemoved.Add(entry.Key);
+                }
+            }
+            foreach (int light in spotLightsToBeRemoved)
+            {
+                spotLights.Remove(light);
             }
         }
         public static void SetupLighting()
@@ -151,13 +206,22 @@ namespace Treg_Engine.Graphics
             light.Base.Diffuse = 1f;
             light.Direction = new Vector3(1f, 1f, 1f);
             int I = 0;
-            List<PointLight> lightsToBeRemoved = new List<PointLight>();
             foreach (KeyValuePair<int, PointLight> entry in pointLights)
             {
                 PointLight pLight = entry.Value;
                 if (I < MAX_POINTLIGHTS && pLight.DieTime >= Util.Time)
                 {
                     SetupPointLight(pLight, I);
+                    I++;
+                }
+            }
+            I = 0;
+            foreach (KeyValuePair<int, SpotLight> entry in spotLights)
+            {
+                SpotLight sLight = entry.Value;
+                if (I < MAX_SPOTLIGHTS && sLight.DieTime >= Util.Time)
+                {
+                    SetupSpotLight(sLight, I);
                     I++;
                 }
             }

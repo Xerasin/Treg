@@ -111,10 +111,25 @@ vec4 CalcPointLight(PointLight l, vec3 Normal)
 	}
 	else
 	{
-		return vec4(0, 0, 0, 1.0);
+		return vec4(0, 0, 0, 0);
 	}
 }
 
+vec4 CalcSpotLight(SpotLight l, vec3 Normal)
+{
+	vec3 dif = normalize(in_position - l.Base.Position);
+	float dotProduct = dot(dif, l.Direction);
+	
+	if ( dotProduct > l.Cutoff)
+	{
+		vec4 Color = CalcPointLight(l.Base, Normal);
+		return Color * (1.0 - (1.0 - dotProduct) * 1.0/(1.0 - l.Cutoff)); // Thanks based foohy
+	}
+	else
+	{
+		return vec4(0, 0, 0, 0);
+	}
+}
 void main()
 {
 	
@@ -125,6 +140,11 @@ void main()
 	for(int i = 0; i < MAX_POINT_LIGHTS; i++)
 	{
 		LightCol += CalcPointLight(gPointLights[i], in_normal);
+	}
+	
+	for(int i = 0; i < MAX_SPOT_LIGHTS; i++)
+	{
+		LightCol += CalcSpotLight(gSpotLights[i], in_normal);
 	}
 	color = (texture2D( ngl_texture0, in_UV.xy)) * LightCol;
 }

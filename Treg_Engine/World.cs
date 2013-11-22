@@ -43,6 +43,7 @@ namespace Treg_Engine
 
         public virtual void OnUpdate(double time)
         {
+            Graphics.Lighting.Think();
             foreach (BaseEntity entity in Entities)
             {
                 entity.OnUpdate(time);

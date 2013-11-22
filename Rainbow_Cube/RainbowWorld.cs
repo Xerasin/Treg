@@ -41,6 +41,17 @@ namespace Rainbow_Cube
             light.DiffuseIntensity = 1f;
             light.Constant = 0f;
             light.Linear = 0.25f;
+
+            env_spotlight light2 = this.Create<env_spotlight>();
+            light2.Enabled = true;
+            light2.Position = new Vector3(-5f, 4.0f, -5.0f);
+            light2.Color = new Vector3(1f, 0f, 0f);
+            light2.AmbientIntensity = 0.5f;
+            light2.DiffuseIntensity = 1f;
+            light2.Constant = 0f;
+            light2.Linear = 0.1f;
+            light2.Direction = new Vector3(0, -1, 0);
+            light2.Cutoff = 0.1f;
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             
         }
