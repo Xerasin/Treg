@@ -23,6 +23,8 @@ namespace Rainbow_Cube
             Enttiy.Position = new Vector3(5, -5, -5);
             Enttiy = this.Create<Popcorn>();
             Enttiy.Position = Vector3.One * -5;
+            Enttiy = this.Create<Wave>();
+            Enttiy.Position = new Vector3(0, -5, 0);
             env_pointlight light = this.Create<env_pointlight>();
             light.Enabled = true;
             light.Position = new Vector3(0, -5, -5);
@@ -44,9 +46,9 @@ namespace Rainbow_Cube
 
             env_spotlight light2 = this.Create<env_spotlight>();
             light2.Enabled = true;
-            light2.Position = new Vector3(-5f, 4.0f, -5.0f);
+            light2.Position = new Vector3(-5f, 0.0f, -5.0f);
             light2.Color = new Vector3(1f, 0f, 0f);
-            light2.AmbientIntensity = 0.5f;
+            light2.AmbientIntensity = 0f;
             light2.DiffuseIntensity = 1f;
             light2.Constant = 0f;
             light2.Linear = 0.1f;

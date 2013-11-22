@@ -1,0 +1,4 @@
+{
+    "shader": "basicrender",
+	"material": "white.png"
+}
