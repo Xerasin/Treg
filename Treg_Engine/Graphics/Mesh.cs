@@ -236,6 +236,7 @@ namespace Treg_Engine.Graphics
             GL.DisableClientState(ArrayCap.NormalArray);
             GL.DisableClientState(ArrayCap.TextureCoordArray);
             GL.DisableClientState(ArrayCap.ColorArray);
+            mat.UnBind();
         }
     }
 }

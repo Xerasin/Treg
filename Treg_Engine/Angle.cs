@@ -10,7 +10,6 @@ namespace Treg_Engine
 {
     public class Angle
     {
-        public static Angle Zero = new Angle();
         public Matrix4 RotationMatrix = Matrix4.Identity;
         private float pitch = 0;
         private float yaw = 0;
