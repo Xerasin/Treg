@@ -14,7 +14,9 @@ namespace Treg_Engine.Graphics
         public static void Init()
         {
             DefaultShader = Shader.LoadFromFile("resources/shaders/basicrender.vs", "resources/shaders/basicrender.fs");
+            Shader2D = Shader.LoadFromFile("resources/shaders/hud.vs", "resources/shaders/hud.fs");
         }
+        public static Shader Shader2D;
         public static Shader DefaultShader;
         public int vertexObject;
         public int fragmentObject;
@@ -109,6 +111,10 @@ namespace Treg_Engine.Graphics
 
             int location = GetLocation(name);
             GL.Uniform3(location, vec);
+        }
+        public void Bind()
+        {
+            GL.UseProgram(programID);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Treg_Engine.Graphics
         {
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, this.texture.textureID);
-            GL.UseProgram(this.shader.programID);
+            this.shader.Bind();
             this.shader.SetUniformInt("ngl_texture0", 0);
         }
     }

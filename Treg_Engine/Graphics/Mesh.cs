@@ -204,7 +204,17 @@ namespace Treg_Engine.Graphics
         }
         public void Render(Material mat, Vector3 Origin, Angle Angle, Vector3 Scale)
         {
-            
+
+            Matrix4 modelmatrix = Matrix4.Identity;
+
+            modelmatrix *= Matrix4.CreateScale(Scale);
+            modelmatrix *= Angle.RotationMatrix;
+            modelmatrix *= Matrix4.CreateTranslation(Origin);
+            this.Render(mat, modelmatrix, View.ProjectionMatrix, View.ViewMatrix);
+        }
+        public void Render(Material mat, Matrix4 ModelMatrix, Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)
+        {
+
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.EnableClientState(ArrayCap.NormalArray);
@@ -219,15 +229,10 @@ namespace Treg_Engine.Graphics
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.SizeInBytes, (IntPtr)(6 * sizeof(float)));
             GL.ColorPointer(4, ColorPointerType.UnsignedByte, Vertex.SizeInBytes, (IntPtr)(8 * sizeof(float)));
             mat.Bind();
-            Matrix4 modelmatrix = Matrix4.Identity;
 
-            modelmatrix *= Matrix4.CreateScale(Scale);
-            modelmatrix *= Angle.RotationMatrix;
-            modelmatrix *= Matrix4.CreateTranslation(Origin);
-
-            mat.shader.SetUniformMatrix4("ModelMatrix", modelmatrix);
-            mat.shader.SetUniformMatrix4("ProjectionMatrix", View.ProjectionMatrix);
-            mat.shader.SetUniformMatrix4("ViewMatrix", View.ViewMatrix);
+            mat.shader.SetUniformMatrix4("ModelMatrix", ModelMatrix);
+            mat.shader.SetUniformMatrix4("ProjectionMatrix", ProjectionMatrix);
+            mat.shader.SetUniformMatrix4("ViewMatrix", ViewMatrix);
             mat.shader.SetUniformFloat("time", Util.Time);
             mat.shader.SetUniformVector3("eyePos", View.EyePos);
             GL.DrawElements(BeginMode.Triangles, this.NumElements, DrawElementsType.UnsignedInt, IntPtr.Zero);

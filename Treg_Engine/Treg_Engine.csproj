@@ -57,6 +57,7 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\env_spotlight.cs" />
     <Compile Include="Entities\env_pointlight.cs" />
+    <Compile Include="Graphics\FBO.cs" />
     <Compile Include="Graphics\Lighting.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\Mesh.cs" />

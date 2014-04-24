@@ -12,6 +12,7 @@ namespace Treg_Engine
     public class World
     {
         public List<BaseEntity> Entities = new List<BaseEntity>();
+        
         public World()
         {
 
