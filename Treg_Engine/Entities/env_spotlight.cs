@@ -7,6 +7,7 @@ using Treg_Engine.Graphics;
 using OpenTK;
 namespace Treg_Engine.Entities
 {
+    [EntityNameAttribute("env_spotlight", true)]
     public class env_spotlight : BaseEntity
     {
         public bool Enabled { get; set; }

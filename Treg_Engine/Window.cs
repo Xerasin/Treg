@@ -41,8 +41,9 @@ namespace Treg_Engine
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1); 
             GL.CullFace(CullFaceMode.Back);
-
+            Window.Instance = this;
             this.CurrentWorld.OnLoad();
+
         }
         protected override void OnUnload(EventArgs e)
         {

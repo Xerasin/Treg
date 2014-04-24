@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLua;
 using NLua.Exceptions;
+using Treg_Engine.Entities;
 namespace Treg_Engine.Scripting
 {
     public static class LuaEntUtil
@@ -12,7 +13,20 @@ namespace Treg_Engine.Scripting
         [RegisterLuaFunction("ents.GetAll")]
         public static LuaTable GetAll()
         {
-            return MainLua.GetNewTable();
+            LuaTable table = MainLua.GetNewTable();
+            World world = Window.GetWorld();
+            foreach (BaseEntity entity in world.Entities)
+            {
+                table[entity.EntIndex] = entity;
+            }
+            return table;
+        }
+
+        [RegisterLuaFunction("ents.Create")]
+        public static BaseEntity Create(string type)
+        {
+            World world = Window.GetWorld();
+            return world.Create(type);
         }
     }
 }

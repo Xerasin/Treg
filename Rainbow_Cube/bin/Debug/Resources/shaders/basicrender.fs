@@ -1,7 +1,7 @@
 #version 330 core
 precision highp float;
 const int MAX_POINT_LIGHTS = 4;
-const int MAX_SPOT_LIGHTS = 4;
+const int MAX_SPOT_LIGHTS = 32;
 const int MAX_SHADOW_CASTERS = 2;
 
 invariant in vec2 in_UV;

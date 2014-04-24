@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using Treg_Engine.Entities;
 using Treg_Engine.Scripting;
 using OpenTK;
@@ -13,7 +14,7 @@ namespace Treg_Engine
     public class World
     {
         public List<BaseEntity> Entities = new List<BaseEntity>();
-        
+        public Dictionary<string, BaseEntityType> typeDic = new Dictionary<string, BaseEntityType>();
         public World()
         {
             MainLua.PreLoad();
@@ -21,9 +22,12 @@ namespace Treg_Engine
         public virtual void OnLoad()
         {
             Treg_Engine.Graphics.Lighting.Init();
+            RegisterEntities();
             MainLua.LoadAll();
+            
         }
 
+        
         public virtual void OnRender()
         {
             View.EyePos = new Vector3(0f, 15f, 15f);
@@ -31,7 +35,7 @@ namespace Treg_Engine
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Enable(EnableCap.DepthTest);
             //GL.DepthFunc(DepthFunction.Greater);
-            GL.Enable(EnableCap.Blend);
+            //GL.Enable(EnableCap.Blend);
             //GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
             //GL.LoadMatrix(ref matrix);
@@ -52,6 +56,45 @@ namespace Treg_Engine
                 entity.OnUpdate(time);
             }
             Treg_Engine.Scripting.LuaHook.Call("Think");
+        }
+        public void RegisterEntities()
+        {
+            Assembly assembly = Assembly.GetCallingAssembly();
+            foreach (Type type in assembly.GetTypes())
+            {
+                Attribute attr = type.GetCustomAttribute(typeof(EntityNameAttribute));
+                if (attr != null)
+                {
+                    EntityNameAttribute eNameAttr = (EntityNameAttribute)attr;
+                    if (eNameAttr.addToDic)
+                    {
+                        BaseEntityType eType = new BaseEntityType(type, new Dictionary<string, object>());
+                        typeDic.Add(eNameAttr.name, eType);
+                    }
+                }
+            }
+        }
+        public void RegisterType(string name, BaseEntity entity)
+        {
+            BaseEntityType type = new BaseEntityType(entity.GetType(), entity.data);
+            typeDic.Add(name, type);
+        }
+        public BaseEntity Create(string name)
+        {
+            if (typeDic.ContainsKey(name))
+            {
+                BaseEntityType type = typeDic[name];
+                object obj = Activator.CreateInstance(type.type);
+                BaseEntity entity = (BaseEntity)obj;
+                foreach (KeyValuePair<string, object> keyValue in type.data)
+                {
+                    entity.data.Add(keyValue.Key, keyValue.Value);
+                }
+                Entities.Add(entity);
+                entity.EntIndex = Entities.IndexOf(entity);
+                return entity;
+            }
+            return null;
         }
         public T Create<T>() where T:BaseEntity, new() // Thanks Based Foohy
         {

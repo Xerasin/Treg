@@ -17,7 +17,7 @@ namespace Rainbow_Cube
         Mesh mesh;
         public override void OnLoad()
         {
-            base.OnLoad();
+            
             //this.Create<Teapot>();
             Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
             Enttiy.Position = new Vector3(5, -5, -5);
@@ -25,7 +25,7 @@ namespace Rainbow_Cube
             Enttiy.Position = Vector3.One * -5;
             Enttiy = this.Create<Wave>();
             Enttiy.Position = new Vector3(0, -5, 0);
-            env_pointlight light = this.Create<env_pointlight>();
+            /*env_pointlight light = this.Create<env_pointlight>();
             light.Enabled = true;
             light.Position = new Vector3(0, -5, -5);
             light.Color = new Vector3(0.5f, 0f, 0f);
@@ -43,7 +43,7 @@ namespace Rainbow_Cube
             light.DiffuseIntensity = 1f;
             light.Constant = 0f;
             light.Linear = 0.25f;
-
+            
             env_spotlight light2 = this.Create<env_spotlight>();
             light2.Enabled = true;
             light2.Position = new Vector3(-5f, 0.0f, -5.0f);
@@ -53,8 +53,10 @@ namespace Rainbow_Cube
             light2.Constant = 0f;
             light2.Linear = 0.1f;
             light2.Direction = new Vector3(0, -1, 0);
-            light2.Cutoff = 0.1f;
+            light2.Cutoff = 0.1f;*/
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
+            RegisterEntities();
+            base.OnLoad();
             
         }
         public override void OnRender()

@@ -72,7 +72,7 @@ namespace Treg_Engine.Graphics
     }
     public static class Lighting
     {
-        const int MAX_SPOTLIGHTS = 4;
+        const int MAX_SPOTLIGHTS = 32;
         const int MAX_POINTLIGHTS = 4;
         public static Shader shader;
         private static DirectionalLightLocations enviromental;
@@ -104,7 +104,7 @@ namespace Treg_Engine.Graphics
 
             }
 
-            for (int I = 0; I < MAX_POINTLIGHTS; I++)
+            for (int I = 0; I < MAX_SPOTLIGHTS; I++)
             {
                 string path = string.Format("gSpotLights[{0}]", I);
 
@@ -199,7 +199,8 @@ namespace Treg_Engine.Graphics
         }
         public static void SetupLighting()
         {
-
+            shader = Resource.LoadShader("basicrender");
+            GL.UseProgram(shader.programID);
             DirectionalLight light;
             light.Base.Color = new Vector3(0.5f, 0.5f, 0.5f);
             light.Base.Ambient = 0.5f;

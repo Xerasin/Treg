@@ -13,19 +13,37 @@ namespace Treg_Engine.Scripting
     {
         public static Lua LuaInstance;
         private static Dictionary<string, object> PermaLocals = new Dictionary<string, object>();
-
+        private static void SetupFunction(string luaname)
+        {
+            string[] path = luaname.Split('.');
+            string table = "";
+            for(int I = 0; I < path.Length - 1; I++)
+            {
+                
+                string cur_table = path[I];
+                table += (I != 0 ? "." : "") + cur_table;
+                object cTable = LuaInstance[table];
+                if(cTable == null)
+                {
+                 LuaInstance.NewTable(table);
+                }
+            }
+        }
         public static void RegisterLuaFunction(object c, string methodname, string luaname)
         {
             Type pPrgType = (c).GetType();
             MethodInfo mInfo = pPrgType.GetMethod(methodname);
+            SetupFunction(luaname);
             LuaInstance.RegisterFunction(luaname, c, mInfo);
         }
         public static void RegisterLuaFunction(Type c, MethodInfo mInfo, string luaname)
         {
+            SetupFunction(luaname);
             LuaInstance.RegisterFunction(luaname, c, mInfo);
         }
         public static void RegisterLuaFunction(Type c, string methodname, string luaname)
         {
+            SetupFunction(luaname);
             Type pPrgType = c;
             MethodInfo mInfo = pPrgType.GetMethod(methodname);
             LuaInstance.RegisterFunction(luaname, c, mInfo);
@@ -33,20 +51,27 @@ namespace Treg_Engine.Scripting
         public static void PreLoad()
         {
             LuaInstance = new Lua();
-            LuaInstance.NewTable("timer");
-            LuaInstance.NewTable("hook");
+            registerAttributesFromClass(typeof(LuaTimer));
+            registerAttributesFromClass(typeof(LuaHook));
+            registerAttributesFromClass(typeof(LuaEntUtil));
+            registerAttributesFromClass(typeof(MainLua));
         }
         public static void LoadAll()
         {
-            registerAttributesFromClass(typeof(LuaTimer));
-            registerAttributesFromClass(typeof(LuaHook));
             IncludeFolder("modules");
             IncludeFolder("autorun");
         }
+
+        [RegisterLuaFunction("RealTime")]
+        public static float Time()
+        {
+            return Util.Time;
+        }
+
         public static LuaTable GetNewTable()
         {
             LuaInstance.NewTable("t");
-            return (LuaTable)LuaInstance["LuaTable"];
+            return (LuaTable)LuaInstance["t"];
         }
         private static void ReadInternalLua(string lua)
         {
