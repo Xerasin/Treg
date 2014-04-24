@@ -71,5 +71,12 @@ namespace Treg_Engine.Graphics
             this.shader.Bind();
             this.shader.SetUniformInt("ngl_texture0", 0);
         }
+        public void UnBind()
+        {
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.UseProgram(0);
+            this.shader.SetUniformInt("ngl_texture0", 0);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Treg_Engine.Entities;
+using Treg_Engine.Scripting;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -15,11 +16,12 @@ namespace Treg_Engine
         
         public World()
         {
-
+            MainLua.PreLoad();
         }
         public virtual void OnLoad()
         {
             Treg_Engine.Graphics.Lighting.Init();
+            MainLua.LoadAll();
         }
 
         public virtual void OnRender()
@@ -49,6 +51,7 @@ namespace Treg_Engine
             {
                 entity.OnUpdate(time);
             }
+            Treg_Engine.Scripting.LuaHook.Call("Think");
         }
         public T Create<T>() where T:BaseEntity, new() // Thanks Based Foohy
         {

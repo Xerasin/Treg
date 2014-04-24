@@ -24,6 +24,10 @@ namespace Treg_Engine
         {
             this.CurrentWorld = world;
         }
+        public static World GetWorld()
+        {
+            return Window.Instance.CurrentWorld;
+        }
         protected override void OnLoad(EventArgs e)
         {
             Treg_Engine.Graphics.Shader.Init();
