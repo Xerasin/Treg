@@ -43,6 +43,7 @@ namespace Treg_Engine
 
         public virtual void OnUpdate(double time)
         {
+            Graphics.Lighting.Think();
             foreach (BaseEntity entity in Entities)
             {
                 entity.OnUpdate(time);
@@ -53,7 +54,7 @@ namespace Treg_Engine
             T entity = new T();
 
             Entities.Add(entity);
-
+            entity.EntIndex = Entities.IndexOf(entity);
             return entity;
         }
     }

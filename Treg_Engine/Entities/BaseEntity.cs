@@ -13,9 +13,11 @@ namespace Treg_Engine.Entities
     {
         public Vector3 Position = Vector3.Zero;
         public Vector3 Scale = Vector3.One;
+        public Vector3 Color = Vector3.One;
         public Angle Angles = Angle.Zero;
         public Mesh mesh;
         public Material material = Material.debugWhite;
+        public int EntIndex;
         public virtual void OnUpdate(double time)
         {
 

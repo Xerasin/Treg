@@ -14,8 +14,9 @@ namespace Rainbow_Cube.Entities
     {
         public Wave()
         {
-            mesh = Mesh.LoadFromFile("resources/models/box.obj");
-            material = new Material("resources/materials/popcorn_machine.png");
+            mesh = Mesh.LoadFromFile("resources/models/cube.obj");
+            material = Treg_Engine.Resource.LoadMaterial("white");
+            this.Scale = new Vector3(200f, 1f, 200f);
         }
     }
 }
