@@ -10,6 +10,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 namespace Rainbow_Cube.Entities
 {
+    [EntityNameAttribute("ent_wave", true)]
     class Wave : BaseEntity
     {
         public Wave()

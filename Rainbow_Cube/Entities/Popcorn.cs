@@ -11,7 +11,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 namespace Rainbow_Cube.Entities
 {
-    [EntityNameAttribute("sent_popcorn", true)]
+    [EntityNameAttribute("ent_popcorn", true)]
     class Popcorn : BaseEntity
     {
         public Popcorn()

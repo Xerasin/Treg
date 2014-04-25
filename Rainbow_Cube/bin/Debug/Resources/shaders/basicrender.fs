@@ -111,7 +111,7 @@ vec4 CalcPointLight(PointLight l, vec3 Normal)
 	}
 	else
 	{
-		return vec4(0, 0, 0, 0);
+		return vec4(0, 0, 0, 1.0);
 	}
 }
 
@@ -127,7 +127,7 @@ vec4 CalcSpotLight(SpotLight l, vec3 Normal)
 	}
 	else
 	{
-		return vec4(0, 0, 0, 0);
+		return vec4(0, 0, 0, 1.0);
 	}
 }
 void main()
@@ -146,5 +146,6 @@ void main()
 	{
 		LightCol += CalcSpotLight(gSpotLights[i], in_normal);
 	}
+	LightCol.w = 1.0;
 	color = (texture2D( ngl_texture0, in_UV.xy)) * LightCol;
 }

@@ -38,6 +38,7 @@ namespace Treg_Engine
             //GL.Enable(EnableCap.Blend);
             //GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
+            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             //GL.LoadMatrix(ref matrix);
             View.ViewMatrix = matrix;
             Graphics.Lighting.SetupLighting();
