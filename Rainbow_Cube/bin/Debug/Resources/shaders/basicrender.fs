@@ -1,7 +1,7 @@
 #version 330 core
 precision highp float;
 const int MAX_POINT_LIGHTS = 4;
-const int MAX_SPOT_LIGHTS = 32;
+const int MAX_SPOT_LIGHTS = 16;
 const int MAX_SHADOW_CASTERS = 2;
 
 invariant in vec2 in_UV;
@@ -73,8 +73,8 @@ vec4 calcLight(BaseLight Light, vec3 Dir, vec3 Normal)
 	vec3 l = normalize( -Dir );
 	
 	float cosTheta = dot( n, l );
-	vec4 DiffuseColor  = vec4(0, 0, 0, 0); 
-	vec4 SpecularColor = vec4(0, 0, 0, 0);
+	vec4 DiffuseColor  = vec4(0, 0, 0, 1.0); 
+	vec4 SpecularColor = vec4(0, 0, 0, 1.0);
 	
 	if(cosTheta > 0)
 	{

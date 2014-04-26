@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ent_skybox.cs" />
     <Compile Include="Entities\Popcorn.cs" />
     <Compile Include="Entities\Teapot.cs" />
     <Compile Include="Entities\Wave.cs" />

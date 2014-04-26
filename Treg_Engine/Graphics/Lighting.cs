@@ -72,7 +72,7 @@ namespace Treg_Engine.Graphics
     }
     public static class Lighting
     {
-        const int MAX_SPOTLIGHTS = 32;
+        const int MAX_SPOTLIGHTS = 16;
         const int MAX_POINTLIGHTS = 4;
         public static Shader shader;
         private static DirectionalLightLocations enviromental;

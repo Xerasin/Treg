@@ -19,12 +19,15 @@ namespace Rainbow_Cube
         {
             
             //this.Create<Teapot>();
+
+            ent_skybox skybox = this.Create<ent_skybox>();
+            skybox.Scale = Vector3.One * 30;
             Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
-            Enttiy.Position = new Vector3(5, -5, -5);
+            Enttiy.Position = new Vector3(7, 0, -5);
             Enttiy = this.Create<Popcorn>();
-            Enttiy.Position = Vector3.One * -5;
+            Enttiy.Position = new Vector3(-7, 0, -5);
             Enttiy = this.Create<Wave>();
-            Enttiy.Position = new Vector3(0, -5, 0);
+            Enttiy.Position = new Vector3(0, 0, 0);
             /*env_pointlight light = this.Create<env_pointlight>();
             light.Enabled = true;
             light.Position = new Vector3(0, -5, -5);
@@ -54,6 +57,7 @@ namespace Rainbow_Cube
             light2.Linear = 0.1f;
             light2.Direction = new Vector3(0, -1, 0);
             light2.Cutoff = 0.1f;*/
+            
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             RegisterEntities();
             base.OnLoad();
@@ -62,12 +66,6 @@ namespace Rainbow_Cube
         public override void OnRender()
         {
             base.OnRender();
-            GL.PushMatrix();
-            Matrix4 mat = Matrix4.Identity;
-            mat = Matrix4.Mult(Matrix4.CreateScale(Vector3.One * 50), mat);
-            GL.MultMatrix(ref mat);
-            //mesh.Render();
-            GL.PopMatrix();
         }
     }
 }

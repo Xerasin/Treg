@@ -30,23 +30,27 @@ namespace Treg_Engine
         
         public virtual void OnRender()
         {
-            View.EyePos = new Vector3(0f, 15f, 15f);
-            Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0.1f, 0f, 0.1f), new Vector3(0f, 1f, 0f));
+            GL.ClearColor(Color4.Red);
+            View.EyePos = new Vector3(0f, 4f, 25f);
+            Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0f, 4f, -10f), new Vector3(0f, 1f, 0f));
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Enable(EnableCap.DepthTest);
             //GL.DepthFunc(DepthFunction.Greater);
-            //GL.Enable(EnableCap.Blend);
+            GL.Enable(EnableCap.Blend);
             //GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             //GL.LoadMatrix(ref matrix);
             View.ViewMatrix = matrix;
             Graphics.Lighting.SetupLighting();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             foreach (BaseEntity entity in Entities)
             {
+                
                 entity.OnRender();
+                
             }
+            
         }
 
         public virtual void OnUpdate(double time)

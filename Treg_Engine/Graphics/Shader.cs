@@ -22,6 +22,7 @@ namespace Treg_Engine.Graphics
         public int fragmentObject;
         public int programID;
         private Dictionary<string, int> uniformlocs = new Dictionary<string,int>();
+        
         public Shader(string vertex = "", string fragment = "")
         {
             int status_code;
@@ -111,6 +112,12 @@ namespace Treg_Engine.Graphics
 
             int location = GetLocation(name);
             GL.Uniform3(location, vec);
+        }
+        public void SetUniformVector4(string name, Vector4 vec)
+        {
+
+            int location = GetLocation(name);
+            GL.Uniform4(location, vec);
         }
         public void Bind()
         {
