@@ -51,6 +51,8 @@ namespace Treg_Engine.Graphics
         public static Material debugWhite;
         public Shader shader = Shader.DefaultShader;
         public Texture texture = new Texture();
+        public Texture texture2 = new Texture();
+        public Texture texture3 = new Texture();
         public Dictionary<string, object> shaderVars = new Dictionary<string, object>();
         public Material()
         {
@@ -70,24 +72,20 @@ namespace Treg_Engine.Graphics
         {
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, this.texture.textureID);
+            GL.ActiveTexture(TextureUnit.Texture1);
+            GL.BindTexture(TextureTarget.Texture2D, this.texture2.textureID);
             this.shader.Bind();
             this.shader.SetUniformInt("ngl_texture0", 0);
-            foreach (KeyValuePair<string, object> vars in shaderVars)
-            {
-                if (vars.Value.GetType() == typeof(float))
-                {
-                    this.shader.SetUniformFloat(vars.Key, (float)vars.Value);
-                }
-                else if (vars.Value.GetType() == typeof(Vector4))
-                {
-                    this.shader.SetUniformVector4(vars.Key, (Vector4)vars.Value);
-                }
-            }
+            this.shader.SetUniformInt("ngl_texture1", 1);
+            
         }
         public void UnBind()
         {
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.ActiveTexture(TextureUnit.Texture1);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.ActiveTexture(TextureUnit.Texture0);
             GL.UseProgram(0);
             
             //this.shader.SetUniformInt("ngl_texture0", 0);

@@ -35,5 +35,18 @@ namespace Treg_Engine
             }
         }
         public static Vector3 EyePos { get; set; }
+        private static Matrix4 ortho;
+        public static Matrix4 OrthoMatrix
+        {
+            get
+            {
+                return ortho;
+            }
+            set
+            {
+                ortho = value;
+            }
+
+        }
     }
 }

@@ -56,9 +56,12 @@ namespace Treg_Engine
             GL.Viewport(0, 0, this.ClientSize.Width, this.ClientSize.Height);
             float aspect_ratio = Width / (float)Height;
             Matrix4 perspective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver3, aspect_ratio, 0.1f, 1000f);
+            View.OrthoMatrix = Matrix4.CreateOrthographicOffCenter(0, this.ClientSize.Width, this.ClientSize.Height, 0, 0.1f, 1000f);
+
+            View.ProjectionMatrix = perspective;
             //GL.MatrixMode(MatrixMode.Projection);
             //GL.LoadMatrix(ref perspective);
-            View.ProjectionMatrix = perspective;
+            
 
         }
         protected override void OnUpdateFrame(FrameEventArgs e)

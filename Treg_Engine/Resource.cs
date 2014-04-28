@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Treg_Engine.Graphics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 namespace Treg_Engine
 {
     public static class Resource
@@ -40,7 +42,7 @@ namespace Treg_Engine
             textures[path] = tex;
             return tex;
         }
-        public static void ParseShaderJValue(Material mat, JValue obj, string name2)
+        public static void ParseShaderJValue(Dictionary<string,object> shaderVars, JValue obj, string name2)
         {
             string val = obj.ToString();
             string[] split = val.Split(' ');
@@ -50,15 +52,15 @@ namespace Treg_Engine
                 float y = float.Parse(split[1]);
                 float z = float.Parse(split[2]);
                 float w = float.Parse(split[3]);
-                mat.shaderVars[name2] = new OpenTK.Vector4(x, y, z, w);
+                shaderVars[name2] = new OpenTK.Vector4(x, y, z, w);
             }
             else
             {
                 float value = float.Parse(obj.ToString());
-                mat.shaderVars[name2] = value;
+                shaderVars[name2] = value;
             }
         }
-        public static void ParseShaderVars(Material mat, JArray array, string name = "")
+        public static void ParseShaderVars(Dictionary<string, object> shaderVars, JArray array, string name = "")
         {
             int I = 0;
             foreach(JToken obj in array.Children())
@@ -66,26 +68,26 @@ namespace Treg_Engine
                 string name2 = name + string.Format("[{0}]", I);
                 if (obj.GetType() == typeof(JArray))
                 {
-                    ParseShaderVars(mat, (JArray)obj, name2);
+                    ParseShaderVars(shaderVars, (JArray)obj, name2);
                 }
                 else if (obj.GetType() == typeof(JValue))
                 {
-                    ParseShaderJValue(mat, (JValue)obj, name2);
+                    ParseShaderJValue(shaderVars, (JValue)obj, name2);
                 }
                 I++;
             }
         }
-        public static void ParseShaderVars(Material mat, JObject array)
+        public static void ParseShaderVars(Dictionary<string, object> shaderVars, JObject array)
         {
             foreach( KeyValuePair<string, JToken> Object in array)
             {
                 if(Object.Value.GetType() == typeof(JArray))
                 {
-                    ParseShaderVars(mat, (JArray)Object.Value, Object.Key);
+                    ParseShaderVars(shaderVars, (JArray)Object.Value, Object.Key);
                 }
                 else if (Object.Value.GetType() == typeof(JValue))
                 {
-                    ParseShaderJValue(mat, (JValue)Object.Value, Object.Key);
+                    ParseShaderJValue(shaderVars, (JValue)Object.Value, Object.Key);
                 }
             }
         }
@@ -123,7 +125,54 @@ namespace Treg_Engine
             }
             if (json["shadervars"] != null)
             {
-                ParseShaderVars(mat, (JObject)json["shadervars"]);
+                ParseShaderVars(mat.shaderVars, (JObject)json["shadervars"]);
+                mat.shader.Bind();
+                foreach (KeyValuePair<string, object> vars in mat.shaderVars)
+                {
+                    if (vars.Value.GetType() == typeof(float))
+                    {
+                        mat.shader.SetUniformFloat(vars.Key, (float)vars.Value);
+                    }
+                    else if (vars.Value.GetType() == typeof(Vector4))
+                    {
+                        mat.shader.SetUniformVector4(vars.Key, (Vector4)vars.Value);
+                    }
+                }
+            }
+            if (json["skyboxVars"] != null)
+            {
+                Dictionary<string, object> vars = new Dictionary<string, object>();
+                int quality = (int)json["skyboxVars"]["quality"];
+                Mesh mesh = Mesh.LoadFromFile("resources/models/flat.obj");
+                ParseShaderVars(vars, (JObject)json["skyboxVars"]["sky"]);
+                Material material = Resource.LoadMaterial("gradient2");
+                
+                FBO fbo = new FBO(quality, quality);
+                fbo.Bind();
+                GL.ClearColor(System.Drawing.Color.Blue);
+                GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+                GL.Disable(EnableCap.CullFace);
+                Matrix4 projectionMatrix = Matrix4.CreateOrthographicOffCenter(0, quality, quality, 0, 0f, 1024f);
+                Matrix4 identity = Matrix4.Identity;
+                Matrix4 ModelMatrix = Matrix4.CreateTranslation(Vector3.Zero);
+                ModelMatrix *= Matrix4.CreateScale(quality, quality, 2f);
+                
+                foreach (KeyValuePair<string, object> var in vars)
+                {
+                    if (var.Value.GetType() == typeof(float))
+                    {
+                        material.shader.SetUniformFloat(var.Key, (float)var.Value);
+                    }
+                    else if (var.Value.GetType() == typeof(Vector4))
+                    {
+                        material.shader.SetUniformVector4(var.Key, (Vector4)var.Value);
+                    }
+                }
+                mesh.Render(material, ModelMatrix, identity, projectionMatrix);
+                
+                fbo.UnBind();
+                GL.Enable(EnableCap.CullFace);
+                mat.texture2 = fbo.Texture;
             }
             materials[path] = mat;
             return mat;

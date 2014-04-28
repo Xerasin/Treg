@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Treg_Engine;
+using Treg_Engine.Graphics;
 using Treg_Engine.Entities;
 using Treg_Engine.Scripting;
 using OpenTK;
@@ -31,6 +33,7 @@ namespace Treg_Engine
         public virtual void OnRender()
         {
             GL.ClearColor(Color4.Red);
+            GL.Enable(EnableCap.CullFace);
             View.EyePos = new Vector3(0f, 4f, 25f);
             Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0f, 4f, -10f), new Vector3(0f, 1f, 0f));
             GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -50,6 +53,14 @@ namespace Treg_Engine
                 entity.OnRender();
                 
             }
+            /*GL.Disable(EnableCap.CullFace);
+            Material material = Resource.LoadMaterial("gradient2");
+            Mesh mesh = Mesh.LoadFromFile("resources/models/flat.obj");
+            Matrix4 projectionMatrix = Matrix4.CreateOrthographicOffCenter(0, 600, 600, 0, 0f, 1000f);
+            Matrix4 identity = Matrix4.Identity;
+            Matrix4 ModelMatrix = Matrix4.CreateTranslation(Vector3.Zero);
+            ModelMatrix *= Matrix4.CreateScale(600, 600, 2.0f);
+            mesh.Render(material, ModelMatrix, identity, projectionMatrix);*/
             
         }
 
