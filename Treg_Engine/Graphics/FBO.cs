@@ -29,12 +29,12 @@ namespace Treg_Engine.Graphics
             // Create Color Texture
             GL.GenTextures(1, out ColorTexture);
             GL.BindTexture(TextureTarget.Texture2D, ColorTexture);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureCompareMode, (int)TextureCompareMode.None);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Clamp);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 
 
             GL.BindTexture(TextureTarget.Texture2D, 0); // prevent feedback, reading and writing to the same image is a bad idea
@@ -45,14 +45,15 @@ namespace Treg_Engine.Graphics
             GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt, (RenderbufferStorage)All.DepthComponent32, width, height);
 
             // test for GL Error here (might be unsupported format)
-
+            CheckFboStatus();
             // Create a FBO and attach the textures
             GL.Ext.GenFramebuffers(1, out FboHandle);
             GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, FboHandle);
             GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt, FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D, ColorTexture, 0);
             //GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt, FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt, DepthRenderbuffer);
 
-            GL.DrawBuffer((DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
+           // GL.DrawBuffer((DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
+            GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
             this.Width = width;
             this.Height = height;
 
@@ -119,7 +120,7 @@ namespace Treg_Engine.Graphics
             GL.DrawBuffer((DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
             GL.PushAttrib(AttribMask.ViewportBit);
             GL.BindFramebuffer(FramebufferTarget.FramebufferExt, FboHandle);
-            
+            GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Viewport(0, 0, Width, Height);
         }
         public void Trash()

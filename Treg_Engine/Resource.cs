@@ -74,20 +74,28 @@ namespace Treg_Engine
                 {
                     ParseShaderJValue(shaderVars, (JValue)obj, name2);
                 }
+                else if (obj.GetType() == typeof(JObject))
+                {
+                    ParseShaderVars(shaderVars, (JObject)obj, name2 + ".");
+                }
                 I++;
             }
         }
-        public static void ParseShaderVars(Dictionary<string, object> shaderVars, JObject array)
+        public static void ParseShaderVars(Dictionary<string, object> shaderVars, JObject array, string name = "")
         {
             foreach( KeyValuePair<string, JToken> Object in array)
             {
                 if(Object.Value.GetType() == typeof(JArray))
                 {
-                    ParseShaderVars(shaderVars, (JArray)Object.Value, Object.Key);
+                    ParseShaderVars(shaderVars, (JArray)Object.Value, name + Object.Key);
                 }
                 else if (Object.Value.GetType() == typeof(JValue))
                 {
-                    ParseShaderJValue(shaderVars, (JValue)Object.Value, Object.Key);
+                    ParseShaderJValue(shaderVars, (JValue)Object.Value, name + Object.Key);
+                }
+                else if (Object.Value.GetType() == typeof(JObject))
+                {
+                    ParseShaderVars(shaderVars, (JObject)Object.Value, name + "." + Object.Key);
                 }
             }
         }
@@ -149,7 +157,7 @@ namespace Treg_Engine
                 
                 FBO fbo = new FBO(quality, quality);
                 fbo.Bind();
-                GL.ClearColor(System.Drawing.Color.Blue);
+                GL.ClearColor(System.Drawing.Color.Blue);   
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                 GL.Disable(EnableCap.CullFace);
                 Matrix4 projectionMatrix = Matrix4.CreateOrthographicOffCenter(0, quality, quality, 0, 0f, 1024f);
@@ -171,8 +179,31 @@ namespace Treg_Engine
                 mesh.Render(material, ModelMatrix, identity, projectionMatrix);
                 
                 fbo.UnBind();
-                GL.Enable(EnableCap.CullFace);
                 mat.texture2 = fbo.Texture;
+                vars = new Dictionary<string, object>();
+                ParseShaderVars(vars, (JObject)json["skyboxVars"]["sun"]);
+
+                fbo = new FBO(quality, quality);
+                fbo.Bind();
+                GL.ClearColor(System.Drawing.Color.AliceBlue);
+                GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+                GL.Disable(EnableCap.CullFace);
+                foreach (KeyValuePair<string, object> var in vars)
+                {
+                    if (var.Value.GetType() == typeof(float))
+                    {
+                        material.shader.SetUniformFloat(var.Key, (float)var.Value);
+                    }
+                    else if (var.Value.GetType() == typeof(Vector4))
+                    {
+                        material.shader.SetUniformVector4(var.Key, (Vector4)var.Value);
+                    }
+                }
+                mesh.Render(material, ModelMatrix, identity, projectionMatrix);
+
+                fbo.UnBind();
+                GL.Enable(EnableCap.CullFace);
+                mat.texture3 = fbo.Texture;
             }
             materials[path] = mat;
             return mat;
