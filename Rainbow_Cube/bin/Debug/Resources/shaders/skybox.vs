@@ -14,8 +14,8 @@ invariant out vec2 in_UV;
 void main() 
 {
 	vec4 pos = vec4( in_Position.x, in_Position.y, in_Position.z, 1.0);
-    gl_Position = ((ProjectionMatrix * (ViewMatrix * ModelMatrix)) * pos).xyww;
-	position = vec3(in_Position.x, in_Position.y, 0);
+    gl_Position = ((ProjectionMatrix * (ViewMatrix * ModelMatrix)) * pos).xyzw;
+	position = pos.xyz;
 	in_Color = dgl_Color;
 	in_UV = vertexUV;
 }

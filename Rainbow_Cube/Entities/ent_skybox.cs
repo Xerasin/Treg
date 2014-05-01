@@ -21,16 +21,15 @@ namespace Rainbow_Cube.Entities
         }
 
         public override void OnRender()
-        {
+        {   
             GL.DepthMask(false);
             GL.DepthFunc(DepthFunction.Lequal);
-            Angle ang = new Angle(0, 0, 90);
+            Angle ang = new Angle(0, 0, (Util.Time * 20) % 360);
             this.material.Bind();
             this.material.shader.SetUniformVector3("sunPos", ang.Up);
             Matrix4 c = Matrix4.Identity;
-            c *= Matrix4.CreateScale(0.5f);
+            c *= Matrix4.CreateScale(Vector3.One * 0.1f);
             c *= Matrix4.CreateTranslation(View.EyePos);
-            float test = Vector3.Dot(new Vector3(-1, 0, 0), new Vector3(1, 0, 0));
             if (mesh != null)
             {
                 mesh.Render(material, c, View.ProjectionMatrix, View.ViewMatrix);

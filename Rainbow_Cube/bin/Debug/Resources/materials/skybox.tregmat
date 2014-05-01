@@ -3,7 +3,7 @@
 	"material": "starfield.png",
 	"skyboxVars" :
 	{
-		"quality" : 2048,
+		"quality" : 1024,
 		"sky" :
 		{
 			"grads" : [

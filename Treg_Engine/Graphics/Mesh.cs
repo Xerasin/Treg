@@ -41,6 +41,17 @@ namespace Treg_Engine.Graphics
         public int NumElements;
         public int bytesize;
         Random rand = new Random();
+
+
+        public Mesh(Vertex[] vertices, uint[] elements)
+        {
+            this.UploadData(vertices, elements);
+        }
+        public Mesh()
+        {
+
+        }
+        
         public static Color ColorFromHSV(double hue, double saturation, double value)
         {
             int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
@@ -156,10 +167,7 @@ namespace Treg_Engine.Graphics
             return new Mesh(vertices, elements);
             
         }
-        public Mesh(Vertex[] vertices, uint[] elements)
-        {
-            this.UploadData(vertices, elements);
-        }
+        
         public void UploadData(Vertex[] vertices, uint[] elements)
         {
             if (VAO <= 0)
@@ -170,6 +178,7 @@ namespace Treg_Engine.Graphics
                 GL.GenBuffers(1, out VBO);
                 GL.GenBuffers(1, out EBO);
             }
+            GL.BindVertexArray(this.VAO);
             int size;
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * BlittableValueType.StrideOf(vertices)), vertices,

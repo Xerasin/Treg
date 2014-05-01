@@ -202,9 +202,9 @@ namespace Treg_Engine
                     }
                 }
                 mesh.Render(material, ModelMatrix, identity, projectionMatrix);
-
+                //material.UnBind();
                 fbo.UnBind();
-                material.UnBind();
+                
                 GL.Enable(EnableCap.CullFace);
                 mat.texture3 = Resource.LoadTexture("glow.png");
             }
