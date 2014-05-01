@@ -21,7 +21,7 @@ namespace Rainbow_Cube
             //this.Create<Teapot>();
 
             ent_skybox skybox = this.Create<ent_skybox>();
-            skybox.Scale = Vector3.One * 30;
+            //skybox.Scale = Vector3.One * 30;
             Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
             Enttiy.Position = new Vector3(7, 0, -5);
             Enttiy = this.Create<Popcorn>();
@@ -61,7 +61,6 @@ namespace Rainbow_Cube
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             RegisterEntities();
             base.OnLoad();
-            
         }
         public override void OnRender()
         {

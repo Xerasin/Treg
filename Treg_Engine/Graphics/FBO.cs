@@ -45,7 +45,7 @@ namespace Treg_Engine.Graphics
             GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt, (RenderbufferStorage)All.DepthComponent32, width, height);
 
             // test for GL Error here (might be unsupported format)
-            CheckFboStatus();
+            //CheckFboStatus();
             // Create a FBO and attach the textures
             GL.Ext.GenFramebuffers(1, out FboHandle);
             GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, FboHandle);

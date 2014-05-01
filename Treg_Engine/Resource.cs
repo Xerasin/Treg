@@ -156,6 +156,7 @@ namespace Treg_Engine
                 Material material = Resource.LoadMaterial("gradient2");
                 
                 FBO fbo = new FBO(quality, quality);
+                material.Bind();
                 fbo.Bind();
                 GL.ClearColor(System.Drawing.Color.Blue);   
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -184,8 +185,9 @@ namespace Treg_Engine
                 ParseShaderVars(vars, (JObject)json["skyboxVars"]["sun"]);
 
                 fbo = new FBO(quality, quality);
+                material.Bind();
                 fbo.Bind();
-                GL.ClearColor(System.Drawing.Color.AliceBlue);
+                GL.ClearColor(System.Drawing.Color.Black);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                 GL.Disable(EnableCap.CullFace);
                 foreach (KeyValuePair<string, object> var in vars)
@@ -202,8 +204,9 @@ namespace Treg_Engine
                 mesh.Render(material, ModelMatrix, identity, projectionMatrix);
 
                 fbo.UnBind();
+                material.UnBind();
                 GL.Enable(EnableCap.CullFace);
-                mat.texture3 = fbo.Texture;
+                mat.texture3 = Resource.LoadTexture("glow.png");
             }
             materials[path] = mat;
             return mat;

@@ -10,14 +10,28 @@ uniform sampler2D ngl_texture2;
 uniform vec3 sunPos;
 uniform float time;
 layout(location = 0) out vec4 color;
-
+float clamp(float a, float b, float c)
+{
+	if (a > c)
+	{
+		return c;
+	}
+	if (a < b)
+	{
+		return b;
+	}
+	return a;
+}
 void main()
 {
 	vec3 posNormal = normalize(position);
 	vec3 sunNormal = normalize(sunPos);
 	
 	float distance = dot(posNormal, sunNormal);
-	vec4 skyColor = texture2D( ngl_texture1, vec2((posNormal.y), (sunPos.y + 1.0) / 2.0));
-	color = texture2D( ngl_texture0, in_UV.xy) * (1.0 - skyColor.a) + skyColor;
+	
+	float y = clamp((sunNormal.y + 1.0) / 2.0, 0.0, 1.0);
+	vec4 skyColor = texture2D( ngl_texture1, vec2(posNormal.y, y));
+	vec4 sunColor = texture2D( ngl_texture2, vec2(distance, y));
+	color = texture2D( ngl_texture0, in_UV.xy) * (1.0 - skyColor.a) + skyColor;// + sunColor * sunColor.a;
 	
 }
