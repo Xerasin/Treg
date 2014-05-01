@@ -28,7 +28,7 @@ namespace Rainbow_Cube.Entities
             this.material.Bind();
             this.material.shader.SetUniformVector3("sunPos", ang.Up);
             Matrix4 c = Matrix4.Identity;
-            c *= Matrix4.CreateScale(Vector3.One * 0.1f);
+            //c *= Matrix4.CreateScale(Vector3.One * 0.1f);
             c *= Matrix4.CreateTranslation(View.EyePos);
             if (mesh != null)
             {

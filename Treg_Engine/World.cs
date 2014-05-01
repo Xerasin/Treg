@@ -32,7 +32,7 @@ namespace Treg_Engine
         
         public virtual void OnRender()
         {
-            GL.ClearColor(Color4.Red);
+            GL.ClearColor(Color4.Black);
             GL.Enable(EnableCap.CullFace);
             View.EyePos = new Vector3(0f, 4f, 25f);
             Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0f, 4f, -10f), new Vector3(0f, 1f, 0f));
