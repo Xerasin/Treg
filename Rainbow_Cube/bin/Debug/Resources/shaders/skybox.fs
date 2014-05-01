@@ -32,6 +32,6 @@ void main()
 	float y = 1.0 - clamp((sunNormal.y + 1.0) / 2.0, 0.0, 1.0);
 	vec4 skyColor = texture2D( ngl_texture1, vec2(posNormal.y, y));
 	vec4 sunColor = texture2D( ngl_texture2, vec2(distance, y));
-	color = texture2D( ngl_texture0, in_UV.xy) * (1.0 - skyColor.a) + vec4(skyColor.rgb + sunColor.rgb * sunColor.a / 2.0, skyColor.a);
+	color = texture2D( ngl_texture0, in_UV.xy) * (1.0 - skyColor.a) + vec4(skyColor.rgb /*+ sunColor.rgb * sunColor.a / 2.0*/, skyColor.a);
 	
 }
