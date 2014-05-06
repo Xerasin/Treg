@@ -35,6 +35,7 @@ namespace Treg_Engine
             }
         }
         public static Vector3 EyePos { get; set; }
+        public static Angle EyeAngles { get; set; }
         private static Matrix4 ortho;
         public static Matrix4 OrthoMatrix
         {

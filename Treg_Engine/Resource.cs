@@ -116,7 +116,7 @@ namespace Treg_Engine
             {
                 json = JObject.Parse(info);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("failed to load material: " + path);
                 return Material.debugWhite;

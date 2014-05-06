@@ -35,7 +35,8 @@ namespace Treg_Engine
             GL.ClearColor(Color4.Black);
             GL.Enable(EnableCap.CullFace);
             View.EyePos = new Vector3(0f, 4f, 25f);
-            Matrix4 matrix = Matrix4.LookAt(View.EyePos, new Vector3(0f, 4f, -10f), new Vector3(0f, 1f, 0f));
+            View.EyeAngles = new Angle(0, 90, 0);
+            Matrix4 matrix = Matrix4.LookAt(View.EyePos, View.EyePos + View.EyeAngles.Forward, new Vector3(0f, 1f, 0f));
             //matrix *= Matrix4.CreateRotationY(Util.Time)
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Enable(EnableCap.DepthTest);
