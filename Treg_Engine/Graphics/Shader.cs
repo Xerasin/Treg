@@ -14,7 +14,7 @@ namespace Treg_Engine.Graphics
         public static void Init()
         {
             DefaultShader = Shader.LoadFromFile("resources/shaders/basicrender.vs", "resources/shaders/basicrender.fs");
-            Shader2D = Shader.LoadFromFile("resources/shaders/hud.vs", "resources/shaders/hud.fs");
+            //Shader2D = Shader.LoadFromFile("resources/shaders/hud.vs", "resources/shaders/hud.fs");
         }
         public static Shader Shader2D;
         public static Shader DefaultShader;

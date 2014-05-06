@@ -1,0 +1,6 @@
+{
+    "shader": "hud/bordered",
+	"material": "panel.png",
+	"shadervars" : {
+	}
+}

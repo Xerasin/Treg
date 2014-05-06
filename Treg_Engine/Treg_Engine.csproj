@@ -75,6 +75,8 @@
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Shader.cs" />
+    <Compile Include="HUD\Elements\Panel.cs" />
+    <Compile Include="HUD\HUD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Scripting\LuaEntUtil.cs" />

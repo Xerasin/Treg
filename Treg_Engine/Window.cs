@@ -23,6 +23,7 @@ namespace Treg_Engine
             settings.ContextFlags)
         {
             this.CurrentWorld = world;
+            Util.ScreenSize = new Vector2(this.ClientSize.Width, this.ClientSize.Height);
         }
         public static World GetWorld()
         {
@@ -61,7 +62,7 @@ namespace Treg_Engine
             View.ProjectionMatrix = perspective;
             //GL.MatrixMode(MatrixMode.Projection);
             //GL.LoadMatrix(ref perspective);
-            
+            Util.ScreenSize = new Vector2(this.ClientSize.Width, this.ClientSize.Height);
 
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
