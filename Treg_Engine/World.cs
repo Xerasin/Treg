@@ -26,6 +26,7 @@ namespace Treg_Engine
             Treg_Engine.Graphics.Lighting.Init();
             RegisterEntities();
             MainLua.LoadAll();
+            HUD.HUD.Init();
             
         }
 
@@ -54,15 +55,8 @@ namespace Treg_Engine
                 entity.OnRender();
                 
             }
-            /*GL.Disable(EnableCap.CullFace);
-            Material material = Resource.LoadMaterial("gradient2");
-            Mesh mesh = Mesh.LoadFromFile("resources/models/flat.obj");
-            Matrix4 projectionMatrix = Matrix4.CreateOrthographicOffCenter(0, 600, 600, 0, 0f, 1000f);
-            Matrix4 identity = Matrix4.Identity;
-            Matrix4 ModelMatrix = Matrix4.CreateTranslation(Vector3.Zero);
-            ModelMatrix *= Matrix4.CreateScale(600, 600, 2.0f);
-            mesh.Render(material, ModelMatrix, identity, projectionMatrix);*/
-            
+
+            HUD.HUD.Render();
         }
 
         public virtual void OnUpdate(double time)
@@ -72,6 +66,7 @@ namespace Treg_Engine
             {
                 entity.OnUpdate(time);
             }
+            HUD.HUD.Update(time);
             Treg_Engine.Scripting.LuaHook.Call("Think");
         }
         public void RegisterEntities()
