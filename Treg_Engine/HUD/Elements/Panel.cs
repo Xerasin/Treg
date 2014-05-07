@@ -28,7 +28,7 @@ namespace Treg_Engine.HUD.Elements
 
         public Panel()
         {
-            Size = new Vector2(70f, 70f);
+            Size = new Vector2(200f, 200f);
             Material = Resource.LoadMaterial("border");
             this.Position = new Vector2(10f, 10f);
             this.IsVisible = true;

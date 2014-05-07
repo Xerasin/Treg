@@ -75,6 +75,8 @@
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Shader.cs" />
+    <Compile Include="HUD\Elements\Button.cs" />
+    <Compile Include="HUD\Elements\ImageButton.cs" />
     <Compile Include="HUD\Elements\Frame.cs" />
     <Compile Include="HUD\Elements\Panel.cs" />
     <Compile Include="HUD\HUD.cs" />

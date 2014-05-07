@@ -23,6 +23,7 @@ namespace Treg_Engine.HUD.Elements
         }
         private Panel background;
         private Panel titleBar;
+        private ImageButton closeButton;
         private Vector2 Offset;
         private bool dragging;
         private ResizeMode CurrentResizeMode;
@@ -36,6 +37,18 @@ namespace Treg_Engine.HUD.Elements
             titleBar.OnMouseDown += titleBar_OnMouseDown;
             titleBar.OnMouseUp += titleBar_OnMouseUp;
             titleBar.OnMouseMove += titleBar_OnMouseMove;
+            closeButton = HUD.Create<ImageButton>();
+            closeButton.Position = new Vector2(this.Size.X - 16f, 8f);
+            closeButton.Size = new Vector2(8f, 8f);
+            closeButton.SetParent(this);
+            closeButton.mat = Resource.LoadMaterial("closeButton");
+            closeButton.OnClick += closeButton_OnClick;
+
+        }
+
+        void closeButton_OnClick(Panel arg1, OpenTK.Input.MouseButtonEventArgs arg2)
+        {
+
         }
         public override void MouseDown(OpenTK.Input.MouseButtonEventArgs e)
         {
@@ -66,6 +79,7 @@ namespace Treg_Engine.HUD.Elements
         public override void Resize(float oldWidth, float oldHeight, float newWidth, float newHeight)
         {
             base.Resize(oldWidth, oldHeight, newWidth, newHeight);
+            closeButton.Position = new Vector2(this.Size.X - 16f, 8f);
             titleBar.SetWidth(newWidth);
         }
         public override void MouseUp(OpenTK.Input.MouseButtonEventArgs e)
