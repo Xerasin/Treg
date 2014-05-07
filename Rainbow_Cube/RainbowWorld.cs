@@ -19,7 +19,10 @@ namespace Rainbow_Cube
         {
             
             //this.Create<Teapot>();
-
+            env_camera camera = this.Create<Player>();
+            camera.Position = new Vector3(0f, 4f, 25f);
+            camera.Angles = new Angle(0, 90, 0);
+            View.Camera = camera;
             ent_skybox skybox = this.Create<ent_skybox>();
             //skybox.Scale = Vector3.One * 30;
             Treg_Engine.Entities.BaseEntity Enttiy = this.Create<Popcorn>();
@@ -57,7 +60,7 @@ namespace Rainbow_Cube
             light2.Linear = 0.1f;
             light2.Direction = new Vector3(0, -1, 0);
             light2.Cutoff = 0.1f;*/
-            
+
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             RegisterEntities();
             base.OnLoad();

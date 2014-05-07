@@ -68,6 +68,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ent_skybox.cs" />
+    <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Popcorn.cs" />
     <Compile Include="Entities\Teapot.cs" />
     <Compile Include="Entities\Wave.cs" />

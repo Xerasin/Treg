@@ -35,11 +35,12 @@ namespace Treg_Engine.HUD
     public static class Surface
     {
         private static Mesh panelMesh;
+        
         public static void Init()
         {
             panelMesh = Mesh.LoadFromFile("resources/models/flat.obj");
         }
-
+        
 
         private static Dictionary<string, TFont> fonts = new Dictionary<string, TFont>();
         public static TFont GetFont(string name)

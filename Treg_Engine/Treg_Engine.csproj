@@ -69,6 +69,7 @@
     <Compile Include="Audio\Audio.cs" />
     <Compile Include="Audio\AudioManager.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\env_camera.cs" />
     <Compile Include="Entities\env_spotlight.cs" />
     <Compile Include="Entities\env_pointlight.cs" />
     <Compile Include="Graphics\FBO.cs" />

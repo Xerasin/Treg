@@ -34,9 +34,7 @@ namespace Treg_Engine
         public virtual void OnRender()
         {
             GL.ClearColor(Color4.Black);
-            GL.Enable(EnableCap.CullFace);
-            View.EyePos = new Vector3(0f, 4f, 25f);
-            View.EyeAngles = new Angle(0, 90, 0);
+            GL.Enable(EnableCap.CullFace); 
             Matrix4 matrix = Matrix4.LookAt(View.EyePos, View.EyePos + View.EyeAngles.Forward, new Vector3(0f, 1f, 0f));
             //matrix *= Matrix4.CreateRotationY(Util.Time)
             GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -75,7 +73,7 @@ namespace Treg_Engine
             Assembly assembly = Assembly.GetCallingAssembly();
             foreach (Type type in assembly.GetTypes())
             {
-                Attribute attr = type.GetCustomAttribute(typeof(EntityNameAttribute));
+                Attribute attr = type.GetCustomAttribute(typeof(EntityNameAttribute), false);
                 if (attr != null)
                 {
                     EntityNameAttribute eNameAttr = (EntityNameAttribute)attr;
