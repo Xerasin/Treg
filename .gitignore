@@ -152,4 +152,4 @@ Rainbow_Cube/bin/Debug/Treg_Engine.dll
 Rainbow_Cube/bin/Debug/Rainbow_Cube.exe
 *Rainbow_Cube.exe
 *Treg_Engine.dll
-Rainbow_Cube/bin/Debug/*.exe
+*.exe
