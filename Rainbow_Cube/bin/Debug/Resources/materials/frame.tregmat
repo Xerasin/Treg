@@ -1,0 +1,8 @@
+{
+    "shader": "hud/bordered",
+	"material": "panel.png",
+	"shadervars" : {
+		"drawMode" : 1,
+		"colors" : ["1.0 0.6 0.7 1.0", "1.0 0.5 1.0 1.0", "1.0 0.8 1.0 1.0"]
+	}
+}

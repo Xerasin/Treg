@@ -86,6 +86,17 @@ namespace Treg_Engine.Graphics
             this.shader.SetUniformInt("ngl_texture0", 0);
             this.shader.SetUniformInt("ngl_texture1", 1);
             this.shader.SetUniformInt("ngl_texture2", 2);
+            foreach (KeyValuePair<string, object> vars in this.shaderVars)
+            {
+                if (vars.Value.GetType() == typeof(float))
+                {
+                    this.shader.SetUniformFloat(vars.Key, (float)vars.Value);
+                }
+                else if (vars.Value.GetType() == typeof(Vector4))
+                {
+                    this.shader.SetUniformVector4(vars.Key, (Vector4)vars.Value);
+                }
+            }
         }
         public void UnBind()
         {

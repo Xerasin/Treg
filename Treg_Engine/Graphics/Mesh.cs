@@ -230,8 +230,8 @@ namespace Treg_Engine.Graphics
             GL.EnableClientState(ArrayCap.TextureCoordArray);
             GL.EnableClientState(ArrayCap.ColorArray);
             GL.BindVertexArray(this.VAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            //GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
 
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.SizeInBytes, (IntPtr)(0));
             GL.NormalPointer(NormalPointerType.Float, Vertex.SizeInBytes, (IntPtr)(3 * sizeof(float)));
