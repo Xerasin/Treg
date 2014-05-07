@@ -19,7 +19,7 @@ namespace Treg_Engine.HUD.Elements
         public override void OnRender()
         {
             //base.OnRender();
-            HUD.RenderRectangle(this.GetRealPos(), this.Size, mat);
+            Surface.DrawBox(this.GetRealPos(), this.Size, mat);
         }
     }
 }

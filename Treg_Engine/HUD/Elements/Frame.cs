@@ -23,24 +23,47 @@ namespace Treg_Engine.HUD.Elements
         }
         private Panel background;
         private Panel titleBar;
+        private Label label;
         private ImageButton closeButton;
         private Vector2 Offset;
         private bool dragging;
         private ResizeMode CurrentResizeMode;
+        public string Title
+        {
+            get
+            {
+                if (label) return label.Text;
+                return "???";
+            }
+            set
+            {
+                if (label) label.Text = value; 
+            }
+
+        }
+
         public Frame() : base()
         {
-            titleBar = HUD.Create<Panel>();
+            titleBar = GUI.Create<Panel>();
             titleBar.Position = Vector2.Zero;
             titleBar.Size = new Vector2(this.Size.X, 25f);
             titleBar.SetParent(this);
+            titleBar.Dock(DockType.TOP);
             titleBar.Material = Resource.LoadMaterial("frame");
             titleBar.OnMouseDown += titleBar_OnMouseDown;
             titleBar.OnMouseUp += titleBar_OnMouseUp;
             titleBar.OnMouseMove += titleBar_OnMouseMove;
-            closeButton = HUD.Create<ImageButton>();
+            label = GUI.Create<Label>();
+            label.Position = new Vector2(this.Size.X / 2, 8f);
+            label.Size = new Vector2(this.Size.X * 0.8f, 16f);
+            label.AnchorStyle = Anchor.Left | Anchor.Right;
+            label.Alignment = QuickFont.QFontAlignment.Centre;
+            label.SetParent(titleBar);
+            closeButton = GUI.Create<ImageButton>();
             closeButton.Position = new Vector2(this.Size.X - 16f, 8f);
             closeButton.Size = new Vector2(8f, 8f);
-            closeButton.SetParent(this);
+            closeButton.AnchorStyle = Anchor.Right;
+            closeButton.SetParent(titleBar);
             closeButton.mat = Resource.LoadMaterial("closeButton");
             closeButton.OnClick += closeButton_OnClick;
 
@@ -79,8 +102,8 @@ namespace Treg_Engine.HUD.Elements
         public override void Resize(float oldWidth, float oldHeight, float newWidth, float newHeight)
         {
             base.Resize(oldWidth, oldHeight, newWidth, newHeight);
-            closeButton.Position = new Vector2(this.Size.X - 16f, 8f);
-            titleBar.SetWidth(newWidth);
+            //closeButton.Position = new Vector2(this.Size.X - 16f, 8f);
+           // titleBar.SetWidth(newWidth);
         }
         public override void MouseUp(OpenTK.Input.MouseButtonEventArgs e)
         {

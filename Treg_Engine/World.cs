@@ -26,7 +26,7 @@ namespace Treg_Engine
             Treg_Engine.Graphics.Lighting.Init();
             RegisterEntities();
             MainLua.LoadAll();
-            HUD.HUD.Init();
+            HUD.GUI.Init();
             
         }
 
@@ -57,7 +57,7 @@ namespace Treg_Engine
                 
             }
 
-            HUD.HUD.Render();
+            HUD.GUI.Render();
         }
 
         public virtual void OnUpdate(double time)
@@ -67,7 +67,7 @@ namespace Treg_Engine
             {
                 entity.OnUpdate(time);
             }
-            HUD.HUD.Update(time);
+            HUD.GUI.Update(time);
             Treg_Engine.Scripting.LuaHook.Call("Think");
         }
         public void RegisterEntities()

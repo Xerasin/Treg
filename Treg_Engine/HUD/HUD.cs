@@ -7,19 +7,22 @@ using Treg_Engine.HUD.Elements;
 using Treg_Engine.Graphics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using QuickFont;
 namespace Treg_Engine.HUD
 {
-    public static class HUD
+    public static class GUI
     {
         private static List<Panel> _panelList = new List<Panel>();
-        private static Mesh panelMesh;
+        
         public static void Init()
         {
-            panelMesh = Mesh.LoadFromFile("resources/models/flat.obj");
-            Panel panel = HUD.Create<Frame>();
+            
+            
             Window.Instance.Mouse.ButtonDown += Mouse_ButtonDown;
             Window.Instance.Mouse.ButtonUp += Mouse_ButtonUp;
             Window.Instance.Mouse.Move += Mouse_Move;
+            Surface.Init();
+            Panel panel = GUI.Create<Frame>();
         }
 
         static void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
@@ -53,7 +56,11 @@ namespace Treg_Engine.HUD
                     {
                         panel.TopParent.MouseDown(e);
                     }
-                    break;
+                    Panel p = panel.TopParent ? panel.TopParent : panel;
+                    if(p.IsVisible)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -84,24 +91,6 @@ namespace Treg_Engine.HUD
 
             _panelList.Add(panel);
             return panel;
-        }
-        public static void RenderRectangle(Vector2 pos, Vector2 size, Material mat)
-        {
-            Matrix4 projectionMatrix = Matrix4.CreateOrthographicOffCenter(0, Util.ScreenSize.X, Util.ScreenSize.Y, 0, 0f, 1000f);
-            Matrix4 identity = Matrix4.Identity;
-            Matrix4 ModelMatrix = Matrix4.Identity;
-            ModelMatrix *= Matrix4.CreateScale(size.X, size.Y, 2.0f);
-            ModelMatrix *= Matrix4.CreateTranslation(new Vector3(pos));
-            mat.Bind();
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureCompareMode, (int)TextureCompareMode.None);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            mat.shader.SetUniformFloat("Width", size.X);
-            mat.shader.SetUniformFloat("Height", size.Y);
-            panelMesh.Render(mat, ModelMatrix, identity, projectionMatrix);
         }
     }
 }

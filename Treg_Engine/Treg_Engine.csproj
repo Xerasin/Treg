@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,7 +52,7 @@
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\OpenTK.dll</HintPath>
+      <HintPath>..\bins\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,8 +79,31 @@
     <Compile Include="HUD\Elements\Button.cs" />
     <Compile Include="HUD\Elements\ImageButton.cs" />
     <Compile Include="HUD\Elements\Frame.cs" />
+    <Compile Include="HUD\Elements\Label.cs" />
     <Compile Include="HUD\Elements\Panel.cs" />
     <Compile Include="HUD\HUD.cs" />
+    <Compile Include="HUD\QuickFont\Builder.cs" />
+    <Compile Include="HUD\QuickFont\Config\QFontBuilderConfiguration.cs" />
+    <Compile Include="HUD\QuickFont\Config\QFontConfiguration.cs" />
+    <Compile Include="HUD\QuickFont\Config\QFontKerningConfiguration.cs" />
+    <Compile Include="HUD\QuickFont\Config\QFontLoaderConfiguration.cs" />
+    <Compile Include="HUD\QuickFont\Config\QFontShadowConfiguration.cs" />
+    <Compile Include="HUD\QuickFont\FontLoadDescription.cs" />
+    <Compile Include="HUD\QuickFont\Helper.cs" />
+    <Compile Include="HUD\QuickFont\JBitmap.cs" />
+    <Compile Include="HUD\QuickFont\JMath.cs" />
+    <Compile Include="HUD\QuickFont\JTexture.cs" />
+    <Compile Include="HUD\QuickFont\JTextureManager.cs" />
+    <Compile Include="HUD\QuickFont\KerningCalculator.cs" />
+    <Compile Include="HUD\QuickFont\ProjectionStack.cs" />
+    <Compile Include="HUD\QuickFont\QBitmap.cs" />
+    <Compile Include="HUD\QuickFont\QFont.cs" />
+    <Compile Include="HUD\QuickFont\QFontData.cs" />
+    <Compile Include="HUD\QuickFont\QFontGlyph.cs" />
+    <Compile Include="HUD\QuickFont\QFontRenderOptions.cs" />
+    <Compile Include="HUD\QuickFont\TextNodeList.cs" />
+    <Compile Include="HUD\QuickFont\TexturePage.cs" />
+    <Compile Include="HUD\Surface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Scripting\LuaEntUtil.cs" />

@@ -11,17 +11,41 @@ namespace Treg_Engine.HUD.Elements
 {
     public class Panel
     {
-        
+        public enum DockType
+        {
+            NODOCK,
+            FILL,
+            LEFT,
+            RIGHT,
+            TOP,
+            BOTTOM
+        }
+        [Flags]
+        public enum Anchor
+        {
+            None = 0x0,
+            Bottom = 0x1,
+            Left = 0x2,
+            Right = 0x4,
+            Top = 0x8
+        }
+
         public Material Material { get; set; }
         public Panel Parent { get; set; }
         public Panel TopParent { get; set; }
         public List<Panel> Children = new List<Panel>();
         public bool IsVisible { get; set; }
         public bool Enabled { get; set; }
-
+        public bool PassThrough { get; set; }
         public Vector2 Position;
         public Vector2 Size;
-
+        public Anchor AnchorStyle { get; set; }
+        public DockType DockStyle { get; set; }
+        public float padLeft { get; set; }
+        public float padRight { get; set; }
+        public float padUp { get; set; }
+        public float padDown { get; set; }
+        public bool dockPosition { get; set; }
         public event Action<Panel, MouseButtonEventArgs> OnMouseDown;
         public event Action<Panel, MouseButtonEventArgs> OnMouseUp;
         public event Action<Panel, MouseMoveEventArgs> OnMouseMove;
@@ -33,6 +57,7 @@ namespace Treg_Engine.HUD.Elements
             this.Position = new Vector2(10f, 10f);
             this.IsVisible = true;
             this.Enabled = true;
+            this.dockPosition = true;
         }
 
         public virtual void OnUpdate(double time)
@@ -62,7 +87,7 @@ namespace Treg_Engine.HUD.Elements
             for (int I = Children.Count - 1; I >= 0; I--)
             {
                 Panel p = Children[I];
-                if (p.ContainsPoint(point))
+                if (p.ContainsPoint(point) && !p.PassThrough)
                 {
                     return p;
                 }
@@ -125,9 +150,109 @@ namespace Treg_Engine.HUD.Elements
             this.Size.Y = height;
             Resize(this.Size.X, old, this.Size.X, this.Size.Y);
         }
+        public virtual void ParentResized(float oldWidth, float oldHeight, float newWidth, float newHeight)
+        {
+            if (!this.Parent) return;
+            float oldWidth2 = this.Size.X;
+            float oldHeight2 = this.Size.Y;
+            HandleAnchor(newWidth - oldWidth, newHeight - oldHeight);
+            HandleDocking();
+
+            this.Resize(oldWidth2, oldHeight2, this.Size.X, this.Size.Y);
+
+        }
         public virtual void Resize(float oldWidth, float oldHeight, float newWidth, float newHeight)
         {
-
+            foreach (Panel child in Children)
+            {
+                child.ParentResized(oldWidth, oldHeight, newWidth, newHeight);
+            }
+        }
+        public void Dock(DockType dock)
+        {
+            this.DockStyle = dock;
+            this.HandleDocking();
+        }
+        public void DockPadding(float left = 0, float right = 0, float top = 0, float bottom = 0)
+        {
+            this.padLeft = left;
+            this.padRight = right;
+            this.padUp = top;
+            this.padDown = bottom;
+        }
+        public virtual void HandleAnchor(float deltaX, float deltaY)
+        {
+            if (this.AnchorStyle == Anchor.None) return;
+            if ((this.AnchorStyle & Anchor.Bottom) != 0)
+            {
+                if ((this.AnchorStyle & Anchor.Top) != 0)
+                {
+                    this.Size.Y += deltaY;
+                    this.Position.Y += deltaY / 2.0f;
+                }
+                else
+                {
+                    this.Position.Y += deltaY;
+                }
+            }
+            if ((this.AnchorStyle & Anchor.Right) != 0)
+            {
+                if ((this.AnchorStyle & Anchor.Left) != 0)
+                {
+                    this.Size.X += deltaX;
+                    this.Position.X += deltaX / 2.0f;
+                }
+                else
+                {
+                    this.Position.X += deltaX;
+                }
+            }
+        }
+        public void HandleDocking()
+        {
+            if (this.DockStyle == DockType.NODOCK) return;
+            if (!this.Parent) return;
+            if (this.DockStyle == DockType.FILL)
+            {
+                this.Size.X = this.Parent.Size.X - (padLeft + padRight);
+                this.Size.Y = this.Parent.Size.Y - (padUp + padDown);
+                if (this.dockPosition)
+                {
+                    this.Position = new Vector2(padLeft, padUp);
+                }
+            }
+            if (this.DockStyle == DockType.TOP)
+            {
+                if(this.dockPosition)
+                {
+                    this.Position = new Vector2(padLeft, padUp);
+                }
+                this.Size.X = this.Parent.Size.X - (padLeft + padRight);
+            }
+            if (this.DockStyle == DockType.BOTTOM)
+            {
+                if (this.dockPosition)
+                {
+                    this.Position = new Vector2(padLeft, this.Parent.Size.Y - (padDown + this.Size.Y));
+                }
+                this.Size.X = this.Parent.Size.X - (padLeft + padRight);
+            }
+            if (this.DockStyle == DockType.LEFT)
+            {
+                if (this.dockPosition)
+                {
+                    this.Position = new Vector2(padLeft, padUp);
+                }
+                this.Size.Y = this.Parent.Size.Y - (padUp + padDown);
+            }
+            if (this.DockStyle == DockType.RIGHT)
+            {
+                if (this.dockPosition)
+                {
+                    this.Position = new Vector2(this.Parent.Size.X - (padRight + this.Size.X), padUp);
+                }
+                this.Size.Y = this.Parent.Size.Y - (padUp + padDown);
+            }
         }
         public bool IsMouseOver()
         {
@@ -176,7 +301,11 @@ namespace Treg_Engine.HUD.Elements
         public virtual void OnRender()
         {
             if (!this.IsVisible) return;
-            HUD.RenderRectangle(this.GetRealPos(), this.Size, this.Material);
+            Surface.DrawBox(this.GetRealPos(), this.Size, this.Material);
+            DrawChildren();
+        }
+        public void DrawChildren()
+        {
             for (int I = 0; I < this.Children.Count; I++)
             {
                 this.Children[I].OnRender();
