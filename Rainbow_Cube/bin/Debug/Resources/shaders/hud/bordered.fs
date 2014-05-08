@@ -94,19 +94,19 @@ void main()
 		}
 		else if(!xSet)
 		{
-			UV = wrap(UV, 16, 16, 4 + 1, 0);
+			UV = wrap(UV, 8, 8, 2 + 1, 0);
 		}
 		else
 		{
 			float oldX = UV.x;
 			UV.x = UV.y;
 			UV.y = oldX;
-			UV = wrap(UV, 16, 16, 4 + 1, 0);
+			UV = wrap(UV, 8, 8, 2 + 1, 0);
 		}
 	}
 	else
 	{
-		UV = wrap(UV, 16, 16, 4 + 0, 0);
+		UV = wrap(UV, 8, 8, 2 + 0, 0);
 	}
 	if(drawMode == 1)
 	{
