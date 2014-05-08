@@ -40,6 +40,7 @@ void main()
 	vec3 corner = (ModelMatrix * vec4(1.0, 1.0, 0.0, 1.0)).xyz;
 	vec3 corner2 = (ModelMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
 	vec3 size = corner - corner2;
+	vec3 real_size = size;
 	vec3 middle = (corner + corner2) / 2.0;
 	float distX = corner.x - in_position.x;
 	float distY = corner.y - in_position.y;
@@ -89,6 +90,7 @@ void main()
 		if(!xSet && !ySet)
 		{
 			UV = wrap(vec2(0.5, 0.5), 4, 4, 0, 0);
+			
 		}
 		else if(!xSet)
 		{
@@ -106,7 +108,16 @@ void main()
 	{
 		UV = wrap(UV, 4, 4, 1, 0);
 	}
-	
+	if(drawMode == 1)
+	{
+		float i = (distX2 - real_size.x / 2) / real_size.x; 
+		float x = ((cos(2.5 * i) + 1.0) / 2.0) * real_size.y;
+		
+		if(distY2 > x)
+		{
+			UV = wrap(vec2(0.5, 0.5), 4, 4, 3, 0);
+		}
+	}
 	tex_color = texture2D(ngl_texture0, UV);
 	vec4 color2 = colors[int(floor(tex_color.z * 255))];
 	if(tex_color.w == 255. || color2.w == 0. || tex_color.w == 0.)

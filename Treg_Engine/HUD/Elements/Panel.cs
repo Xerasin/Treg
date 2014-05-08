@@ -58,6 +58,7 @@ namespace Treg_Engine.HUD.Elements
             this.IsVisible = true;
             this.Enabled = true;
             this.dockPosition = true;
+            this.PassThrough = false;
         }
 
         public virtual void OnUpdate(double time)
@@ -102,6 +103,10 @@ namespace Treg_Engine.HUD.Elements
             if (highestChild)
             {
                 highestChild.MouseDown(e);
+                if (!highestChild.PassThrough)
+                {
+                    return;
+                }
             }
 
             if (this.OnMouseDown != null)
@@ -117,6 +122,10 @@ namespace Treg_Engine.HUD.Elements
             if (highestChild)
             {
                 highestChild.MouseUp(e);
+                if (!highestChild.PassThrough)
+                {
+                    return;
+                }
             }
 
             if (this.OnMouseUp != null)
