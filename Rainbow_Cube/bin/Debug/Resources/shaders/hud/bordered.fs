@@ -120,7 +120,7 @@ void main()
 	}
 	tex_color = texture2D(ngl_texture0, UV);
 	vec4 color2 = colors[int(floor(tex_color.z * 255))];
-	if(tex_color.w == 255. || color2.w == 0. || tex_color.w == 0.)
+	if(tex_color.w == 1.0 || color2.w == 0. || tex_color.w == 0.)
 	{
 		color = tex_color;
 	}
