@@ -58,7 +58,7 @@ namespace Rainbow_Cube.Entities
                 mouse_motion.X += X_Dif;
                 mouse_motion.Y += Y_Dif;
                 this.Angles.Yaw += mouse_motion.X * (float)time * 6f;
-                this.Angles.Roll += mouse_motion.Y * (float)time * 6f;
+                this.Angles.Roll = Math.Min(Math.Max(this.Angles.Roll + mouse_motion.Y * (float)time * 6f, -85), 85);
                 mouse_motion *= 0.5f;
                 System.Windows.Forms.Cursor.Position = Window.Instance.PointToScreen(new System.Drawing.Point((int)LX, (int)LY));
             }

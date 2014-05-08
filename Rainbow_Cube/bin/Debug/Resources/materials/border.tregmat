@@ -1,5 +1,7 @@
 {
     "shader": "hud/bordered",
+	"magfilter" : "nearest",
+	"minfilter" : "nearest",
 	"material": "panel.png",
 	"shadervars" : {
 		"drawMode" : 0,

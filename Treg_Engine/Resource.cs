@@ -131,6 +131,22 @@ namespace Treg_Engine
             {
                 mat.texture = Resource.LoadTexture(json["material"].ToString());
             }
+            if (json["magfilter"] != null)
+            {
+                string t = (string)json["magfilter"];
+                if (t == "nearest")
+                {
+                    mat.texture.MagFilter = TextureMagFilter.Nearest;
+                }
+            }
+            if (json["minfilter"] != null)
+            {
+                string t = (string)json["minfilter"];
+                if (t == "nearest")
+                {
+                    mat.texture.MinFilter = TextureMinFilter.Nearest;
+                }
+            }
             if (json["shadervars"] != null)
             {
                 ParseShaderVars(mat.shaderVars, (JObject)json["shadervars"]);
@@ -181,6 +197,8 @@ namespace Treg_Engine
                 
                 fbo.UnBind();
                 mat.texture2 = fbo.Texture;
+                mat.texture2.MagFilter = TextureMagFilter.Nearest;
+                mat.texture2.MinFilter = TextureMinFilter.Nearest;
                 vars = new Dictionary<string, object>();
                 ParseShaderVars(vars, (JObject)json["skyboxVars"]["sun"]);
 
@@ -207,6 +225,8 @@ namespace Treg_Engine
                 
                 GL.Enable(EnableCap.CullFace);
                 mat.texture3 = Resource.LoadTexture("glow.png");
+                mat.texture3.MagFilter = TextureMagFilter.Nearest;
+                mat.texture3.MinFilter = TextureMinFilter.Nearest;
             }
             materials[path] = mat;
             return mat;
