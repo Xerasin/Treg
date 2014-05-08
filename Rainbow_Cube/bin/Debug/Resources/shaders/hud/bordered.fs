@@ -1,5 +1,5 @@
 #version 330 core
-const float BorderSize = 64;
+const float BorderSize = 16;
 precision highp float;
 invariant in vec2 in_UV;
 invariant in vec4 in_Color;
@@ -94,19 +94,19 @@ void main()
 		}
 		else if(!xSet)
 		{
-			UV = wrap(UV, 4, 4, 2, 0);
+			UV = wrap(UV, 16, 16, 4 + 1, 0);
 		}
 		else
 		{
 			float oldX = UV.x;
 			UV.x = UV.y;
 			UV.y = oldX;
-			UV = wrap(UV, 4, 4, 2, 0);
+			UV = wrap(UV, 16, 16, 4 + 1, 0);
 		}
 	}
 	else
 	{
-		UV = wrap(UV, 4, 4, 1, 0);
+		UV = wrap(UV, 16, 16, 4 + 0, 0);
 	}
 	if(drawMode == 1)
 	{
