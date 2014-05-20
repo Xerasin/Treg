@@ -82,5 +82,38 @@ namespace Treg_Engine.Audio
                 Bass.BASS_ChannelSetAttribute(this.Handle, BASSAttribute.BASS_ATTRIB_FREQ, freq);
             }
         }
+        public float[] GetFFT(BASSData data)
+        {
+            int length = 0;
+            switch(data)
+            {
+                case BASSData.BASS_DATA_FFT256:
+                    length = 128;
+                    break;
+                case BASSData.BASS_DATA_FFT512:
+                    length = 256;
+                    break;
+                case BASSData.BASS_DATA_FFT1024:
+                    length = 512;
+                    break;
+                case BASSData.BASS_DATA_FFT2048:
+                    length = 1024;
+                    break;
+                case BASSData.BASS_DATA_FFT4096:
+                    length = 2048;
+                    break;
+                case BASSData.BASS_DATA_FFT8192:
+                    length = 4096;
+                    break;
+                case BASSData.BASS_DATA_FFT16384:
+                    length = 8192;
+                    break;
+                default:
+                    return new float[1];
+            }
+            float[] fftData = new float[length];
+            Bass.BASS_ChannelGetData(this.Handle, fftData, (int)data);
+            return fftData;
+        }
     }
 }

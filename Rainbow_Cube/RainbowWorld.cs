@@ -15,6 +15,8 @@ namespace Rainbow_Cube
     class RainbowWorld : World
     {
         Mesh mesh;
+        Wave wave;
+        Treg_Engine.Audio.Audio audio;
         public override void OnLoad()
         {
             
@@ -31,6 +33,7 @@ namespace Rainbow_Cube
             Enttiy.Position = new Vector3(-7, 0, -5);
             Enttiy = this.Create<Wave>();
             Enttiy.Position = new Vector3(0, 0, 0);
+            wave = this.Create<Wave>();
             /*env_pointlight light = this.Create<env_pointlight>();
             light.Enabled = true;
             light.Position = new Vector3(0, -5, -5);
@@ -60,10 +63,16 @@ namespace Rainbow_Cube
             light2.Linear = 0.1f;
             light2.Direction = new Vector3(0, -1, 0);
             light2.Cutoff = 0.1f;*/
-
+            audio = Treg_Engine.Audio.AudioManager.LoadSong("Resources//sounds//music.ogg");
+            audio.Play(true);
             mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             RegisterEntities();
             base.OnLoad();
+        }
+        public override void OnUpdate(double time)
+        {
+            base.OnUpdate(time);
+            wave.UpdateMesh(audio);
         }
         public override void OnRender()
         {

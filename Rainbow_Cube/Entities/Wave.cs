@@ -22,16 +22,18 @@ namespace Rainbow_Cube.Entities
             this.Scale = new Vector3(50f, 1f, 50f);
         }
         private float lastUpdate = 0f;
-        public override void OnUpdate(double time)
+        public void UpdateMesh(Treg_Engine.Audio.Audio audio)
         {
-            /*if (Util.Time - lastUpdate < 0.005f) return;
+            if (Util.Time - lastUpdate < 0.005f) return;
+            float[] fft = audio.GetFFT(Un4seen.Bass.BASSData.BASS_DATA_FFT256);
             float stride = 0.05f;
             List<Vertex> vertexes = new List<Vertex>();
             List<uint> elements = new List<uint>();
             uint lv1 = 0, lv2 = 0;
+            int index = 0;
             for (float X = -1; X <= 1; X += stride)
             {
-                float Y = (float)Math.Cos((X + Util.Time * 5.0f) * 5.0f);
+                float Y = fft[index] * 20;
                 Vertex vertex1 = new Vertex(new Vector3(X, Y, -1), System.Drawing.Color.White, Vector3.Zero, new Vector2((X + 1)/2, 0));
                 Vertex vertex2 = new Vertex(new Vector3(X, Y, 1), System.Drawing.Color.White, Vector3.Zero, new Vector2((X + 1) / 2, 1));
                 vertexes.Add(vertex1);
@@ -46,9 +48,13 @@ namespace Rainbow_Cube.Entities
                 lv1 = v1;
                 lv2 = v2;
                 lastUpdate = Util.Time;
+                index++;
             }
             mesh.UploadData(vertexes.ToArray(), elements.ToArray());
-            base.OnUpdate(time);*/
+        }
+        public override void OnUpdate(double time)
+        {
+            
         }
     }
 }
