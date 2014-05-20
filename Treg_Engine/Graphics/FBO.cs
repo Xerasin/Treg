@@ -64,17 +64,17 @@ namespace Treg_Engine.Graphics
             {
                 case FramebufferErrorCode.FramebufferCompleteExt:
                     {
-                        Console.WriteLine("FBO: The framebuffer is complete and valid for rendering.");
+                        Log.Debug("FBO: The framebuffer is complete and valid for rendering.");
                         return true;
                     }
                 case FramebufferErrorCode.FramebufferIncompleteAttachmentExt:
                     {
-                        Console.WriteLine("FBO: One or more attachment points are not framebuffer attachment complete. This could mean there’s no texture attached or the format isn’t renderable. For color textures this means the base format must be RGB or RGBA and for depth textures it must be a DEPTH_COMPONENT format. Other causes of this error are that the width or height is zero or the z-offset is out of range in case of render to volume.");
+                        Log.Error("FBO: One or more attachment points are not framebuffer attachment complete. This could mean there’s no texture attached or the format isn’t renderable. For color textures this means the base format must be RGB or RGBA and for depth textures it must be a DEPTH_COMPONENT format. Other causes of this error are that the width or height is zero or the z-offset is out of range in case of render to volume.");
                         break;
                     }
                 case FramebufferErrorCode.FramebufferIncompleteMissingAttachmentExt:
                     {
-                        Console.WriteLine("FBO: There are no attachments.");
+                        Log.Error("FBO: There are no attachments.");
                         break;
                     }
                 /* case  FramebufferErrorCode.GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
@@ -84,32 +84,32 @@ namespace Treg_Engine.Graphics
                      }*/
                 case FramebufferErrorCode.FramebufferIncompleteDimensionsExt:
                     {
-                        Console.WriteLine("FBO: Attachments are of different size. All attachments must have the same width and height.");
+                        Log.Error("FBO: Attachments are of different size. All attachments must have the same width and height.");
                         break;
                     }
                 case FramebufferErrorCode.FramebufferIncompleteFormatsExt:
                     {
-                        Console.WriteLine("FBO: The color attachments have different format. All color attachments must have the same format.");
+                        Log.Error("FBO: The color attachments have different format. All color attachments must have the same format.");
                         break;
                     }
                 case FramebufferErrorCode.FramebufferIncompleteDrawBufferExt:
                     {
-                        Console.WriteLine("FBO: An attachment point referenced by GL.DrawBuffers() doesn’t have an attachment.");
+                        Log.Error("FBO: An attachment point referenced by GL.DrawBuffers() doesn’t have an attachment.");
                         break;
                     }
                 case FramebufferErrorCode.FramebufferIncompleteReadBufferExt:
                     {
-                        Console.WriteLine("FBO: The attachment point referenced by GL.ReadBuffers() doesn’t have an attachment.");
+                        Log.Error("FBO: The attachment point referenced by GL.ReadBuffers() doesn’t have an attachment.");
                         break;
                     }
                 case FramebufferErrorCode.FramebufferUnsupportedExt:
                     {
-                        Console.WriteLine("FBO: This particular FBO configuration is not supported by the implementation.");
+                        Log.Error("FBO: This particular FBO configuration is not supported by the implementation.");
                         break;
                     }
                 default:
                     {
-                        Console.WriteLine("FBO: Status unknown. (yes, this is really bad.)");
+                        Log.Error("FBO: Status unknown. (yes, this is really bad.)");
                         break;
                     }
             }

@@ -44,5 +44,43 @@ namespace Treg_Engine.Audio
             Bass.BASS_ChannelStop(this.Handle);
             Bass.BASS_StreamFree(this.Handle);
         }
+        public void Play(bool fromBeginning)
+        {
+            if (this.Handle != 0)
+            {
+                Bass.BASS_ChannelPlay(this.Handle, fromBeginning);
+            }
+        }
+        public void Stop()
+        {
+            if (this.Handle != 0)
+            {
+                Bass.BASS_ChannelStop(this.Handle);
+            }
+        }
+        public void Pause()
+        {
+            if (this.Handle != 0)
+            {
+                Bass.BASS_ChannelPause(this.Handle);
+            }
+        }
+        public bool IsPlaying()
+        {
+            if (this.Handle != 0)
+            {
+                Un4seen.Bass.BASSActive active = Bass.BASS_ChannelIsActive(this.Handle);
+                return active != BASSActive.BASS_ACTIVE_STOPPED && active != BASSActive.BASS_ACTIVE_PAUSED;
+            }
+
+            return false;
+        }
+        public void SetFrequency(float freq)
+        {
+            if (this.Handle != 0)
+            {
+                Bass.BASS_ChannelSetAttribute(this.Handle, BASSAttribute.BASS_ATTRIB_FREQ, freq);
+            }
+        }
     }
 }

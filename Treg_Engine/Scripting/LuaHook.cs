@@ -46,7 +46,7 @@ namespace Treg_Engine.Scripting
             {
                 if (key.Value == null)
                 {
-                    Console.WriteLine("Hook '" + key.Key + "' called a null function");
+                    Log.Error("Hook '" + key.Key + "' called a null function");
                     hooks[event_name].Remove(key.Key);
                     continue;
                 }
@@ -59,7 +59,7 @@ namespace Treg_Engine.Scripting
                     }
                     catch (LuaException e)
                     {
-                        Console.WriteLine("Hook '" + key.Key + "' failed: " + e.Message);
+                        Log.Error("Hook '" + key.Key + "' failed: " + e.Message);
                         hooks[event_name].Remove(key.Key);
                         continue;
                     }

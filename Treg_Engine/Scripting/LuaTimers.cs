@@ -79,12 +79,12 @@ namespace Treg_Engine.Scripting
                         }
                         catch (NLua.Exceptions.LuaException exp)
                         {
-                            Console.WriteLine(exp.Message);
+                            Log.Error(exp.Message);
                             this.SetTimes(0);
                         }
                         catch (ArgumentNullException exp)
                         {
-                            Console.WriteLine(exp.Message);
+                            Log.Error(exp.Message);
                         }
                         if (times > 0)
                         {

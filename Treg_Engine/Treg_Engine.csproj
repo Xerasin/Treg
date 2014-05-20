@@ -68,6 +68,7 @@
     <Compile Include="Angle.cs" />
     <Compile Include="Audio\Audio.cs" />
     <Compile Include="Audio\AudioManager.cs" />
+    <Compile Include="Audio\CachedAudio.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\env_camera.cs" />
     <Compile Include="Entities\env_spotlight.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="HUD\QuickFont\TextNodeList.cs" />
     <Compile Include="HUD\QuickFont\TexturePage.cs" />
     <Compile Include="HUD\Surface.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Scripting\LuaEntUtil.cs" />
@@ -126,6 +128,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bass.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="lua52.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -118,7 +118,7 @@ namespace Treg_Engine
             }
             catch (Exception)
             {
-                Console.WriteLine("failed to load material: " + path);
+                Log.Error("failed to load material: " + path);
                 return Material.debugWhite;
             }
             Material mat = new Material();

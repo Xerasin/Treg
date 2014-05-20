@@ -31,8 +31,10 @@ namespace Treg_Engine
         }
         protected override void OnLoad(EventArgs e)
         {
+            Log.StartLog();
             Treg_Engine.Graphics.Shader.Init();
             Treg_Engine.Graphics.Material.Init();
+            Treg_Engine.Audio.AudioManager.Init();
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             //GL.Enable(EnableCap.Blend);
@@ -44,11 +46,13 @@ namespace Treg_Engine
             GL.CullFace(CullFaceMode.Back);
             Window.Instance = this;
             this.CurrentWorld.OnLoad();
+            
 
         }
         protected override void OnUnload(EventArgs e)
         {
             base.OnUnload(e);
+            Log.EndLog();
         }
         protected override void OnResize(EventArgs e)
         {
@@ -69,6 +73,7 @@ namespace Treg_Engine
         {
             CurrentWorld.OnUpdate(e.Time);
             Util.Think(e);
+            Treg_Engine.Audio.AudioManager.Think();
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {

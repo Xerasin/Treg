@@ -55,6 +55,7 @@ namespace Treg_Engine.Scripting
             registerAttributesFromClass(typeof(LuaHook));
             registerAttributesFromClass(typeof(LuaEntUtil));
             registerAttributesFromClass(typeof(MainLua));
+            registerAttributesFromClass(typeof(Log));
         }
         public static void LoadAll()
         {
@@ -95,17 +96,17 @@ namespace Treg_Engine.Scripting
                     }
                     catch (LuaException e)
                     {
-                        Console.WriteLine(e.Message);
+                        Log.Error(e.Message);
                     }
                 }
             }
             catch (TargetException e)
             {
-                Console.WriteLine(e.Message);
+                Log.Error(e.Message);
             }
             catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine(e.Message);
+                Log.Error(e.Message);
             }
         }
        
