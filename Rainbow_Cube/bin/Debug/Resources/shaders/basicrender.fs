@@ -11,7 +11,7 @@ invariant in vec3 in_normal;
 
 struct BaseLight
 {
-        vec3 Color;
+        vec4 Color;
         float AmbientIntensity;
         float DiffuseIntensity;
 };
@@ -47,7 +47,7 @@ uniform mat4 ModelMatrix;
 uniform mat4 ProjectionMatrix;
 uniform mat4 ViewMatrix;
 uniform vec3 eyePos;
-
+uniform vec4 overrideColor;
 
 uniform PointLight gPointLights[MAX_POINT_LIGHTS];
 uniform SpotLight gSpotLights[MAX_SPOT_LIGHTS];
@@ -66,8 +66,8 @@ vec3 hsv2rgb(vec3 c)
 
 vec4 calcLight(BaseLight Light, vec3 Dir, vec3 Normal)
 {
-	vec4 AmbientColor = vec4(Light.Color, 1.0f) * Light.AmbientIntensity;  
-	vec3 LightColor = Light.Color;
+	vec4 AmbientColor = Light.Color * Light.AmbientIntensity;  
+	vec4 LightColor = Light.Color;
 	
 	vec3 n = normalize( Normal );
 	vec3 l = normalize( -Dir );
@@ -78,14 +78,14 @@ vec4 calcLight(BaseLight Light, vec3 Dir, vec3 Normal)
 	
 	if(cosTheta > 0)
 	{
-		DiffuseColor = vec4(LightColor, 1) * Light.DiffuseIntensity * cosTheta;
+		DiffuseColor = LightColor * Light.DiffuseIntensity * cosTheta;
 		
 		vec3 difference = normalize(eyePos - in_position.xyz);
 		vec3 reflect = normalize(reflect(Dir, Normal));
 		float specFactor = dot(difference, reflect);
 		if(specFactor > 0)
 		{
-			SpecularColor = vec4(Light.Color, 1.0f) * pow(specFactor, 5) * 0.1;  
+			SpecularColor = Light.Color * pow(specFactor, 5) * 0.1;  
 		}
 	}
 	return AmbientColor + (DiffuseColor + SpecularColor);
@@ -147,5 +147,5 @@ void main()
 		LightCol += CalcSpotLight(gSpotLights[i], in_normal);
 	}
 	LightCol.w = 1.0;
-	color = (texture2D( ngl_texture0, in_UV.xy)) * LightCol;
+	color = (texture2D( ngl_texture0, in_UV.xy)) * LightCol * in_Color * overrideColor;
 }

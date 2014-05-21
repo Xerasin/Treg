@@ -75,11 +75,12 @@ namespace Treg_Engine.Audio
                 Bass.BASS_StreamFree(channel);
             }
         }
-        public static Audio LoadSong(string filename, bool Loop = false, bool Positional = false, Entities.BaseEntity ent = null)
+        public static Audio LoadSong(string filename, bool Loop = false, bool Positional = false, bool decode = false, Entities.BaseEntity ent = null)
         {
             int handle = 0;
             BASSFlag flags = BASSFlag.BASS_MUSIC_PRESCAN;
             if (Loop) flags = flags | BASSFlag.BASS_SAMPLE_LOOP;
+            if (decode) flags = flags | BASSFlag.BASS_MUSIC_DECODE;
             if (Positional || ent != null) flags = flags | BASSFlag.BASS_SAMPLE_3D | BASSFlag.BASS_SAMPLE_MONO;
 
             handle = Bass.BASS_StreamCreateFile(filename, 0, 0, flags);

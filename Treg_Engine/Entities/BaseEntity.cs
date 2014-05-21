@@ -13,7 +13,7 @@ namespace Treg_Engine.Entities
     {
         public Vector3 Position = Vector3.Zero;
         public Vector3 Scale = Vector3.One;
-        public Vector3 Color = Vector3.One;
+        public Vector4 Color = Vector4.One;
         public Angle Angles = new Angle(0, 0, 0);
         public Mesh mesh;
         public Material material = Material.debugWhite;
@@ -28,7 +28,7 @@ namespace Treg_Engine.Entities
         {
             if (mesh != null)
             {
-                mesh.Render(this.material, Position, Angles, Scale);
+                mesh.Render(this.material, Position, Angles, Scale, this.Color);
             }
         }
         public string GetClass()

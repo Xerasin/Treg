@@ -115,5 +115,37 @@ namespace Treg_Engine.Audio
             Bass.BASS_ChannelGetData(this.Handle, fftData, (int)data);
             return fftData;
         }
+        public void Seek(double seconds)
+        {
+            if (this.Handle != -1)
+            {
+                long index = Bass.BASS_ChannelSeconds2Bytes(this.Handle, seconds);
+                Bass.BASS_ChannelSetPosition(this.Handle, index, BASSMode.BASS_POS_BYTES);
+            }
+        }
+        public void SeekBytes(long index)
+        {
+            if(this.Handle != -1)
+            {
+                Bass.BASS_ChannelSetPosition(this.Handle, index, BASSMode.BASS_POS_BYTES);
+            }
+        }
+        public double GetLength()
+        {
+            long byte_Length = this.GetLengthBytes();
+            if(this.Handle != -1)
+            {
+                return Bass.BASS_ChannelBytes2Seconds(this.Handle, byte_Length);
+            }
+            return -1;
+        }
+        public long GetLengthBytes()
+        {
+            if (this.Handle != -1)
+            {
+                return Bass.BASS_ChannelGetLength(this.Handle);
+            }
+            return 0;
+        }
     }
 }

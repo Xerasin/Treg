@@ -63,16 +63,51 @@ namespace Rainbow_Cube
             light2.Linear = 0.1f;
             light2.Direction = new Vector3(0, -1, 0);
             light2.Cutoff = 0.1f;*/
-            audio = Treg_Engine.Audio.AudioManager.LoadSong("Resources//sounds//music.ogg");
+            /*audio = Treg_Engine.Audio.AudioManager.LoadSong("Resources//sounds//music.ogg", false, false, true);
             audio.Play(true);
-            mesh = Mesh.LoadFromFile("resources/models/cube.obj");
+            audio.SetVolume(0);
+            double stride = 0.1;
+            double length = audio.GetLength();
+            int interations = (int)(length / stride);
+            List<float> data = new List<float>();
+            for (int I = 0; I < interations; I ++)
+            {
+                double second = stride * I;
+                audio.Seek(second);
+                float[] fft = audio.GetFFT(Un4seen.Bass.BASSData.BASS_DATA_FFT256);
+                float fft_average = 0;
+                for (int I2 = 0; I2 < fft.Length; I2++)
+                {
+                    fft_average += fft[I2];
+                }
+                fft_average /= fft.Length;
+                fft_average *= 20;
+                data.Add(fft_average);
+            }
+            for (int start = 0; start < data.Count; start += 128)
+            {
+                List<float> box = data.GetRange(start, Math.Min(128, (data.Count - start) - 1));
+                Mountain test = this.Create<Mountain>();
+                test.Color = new Vector4(0.8f, 0.8f, 1.0f, 1.0f);
+                test.Setup(box.ToArray());
+                test.Position.X = start * 0.05f;
+                test.Position.Z = -1;
+                test.Scale = Vector3.One * 20;
+                Mountain front = this.Create<Mountain>();
+                front.Color = new Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+                front.Setup(box.ToArray());
+                front.Position.X = start * 0.05f;
+                front.Position.Z = -0.98f;
+                front.Scale = new Vector3(1f, 0.5f, 1f) * 20;
+            }*/
+                mesh = Mesh.LoadFromFile("resources/models/cube.obj");
             RegisterEntities();
             base.OnLoad();
         }
         public override void OnUpdate(double time)
         {
             base.OnUpdate(time);
-            wave.UpdateMesh(audio);
+            //wave.UpdateMesh(audio);
         }
         public override void OnRender()
         {

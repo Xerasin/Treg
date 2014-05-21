@@ -41,7 +41,7 @@ namespace Treg_Engine.Graphics
     }
     public struct BaseLight
     {
-        public Vector3 Color;
+        public Vector4 Color;
         public float Ambient;
         public float Diffuse;
     }
@@ -124,7 +124,7 @@ namespace Treg_Engine.Graphics
         }
         public static void SetupEnviromentalLight(DirectionalLight light)
         {
-            GL.Uniform3(enviromental.Base.Color, light.Base.Color);
+            GL.Uniform4(enviromental.Base.Color, light.Base.Color);
             GL.Uniform3(enviromental.Direction, light.Direction);
             GL.Uniform1(enviromental.Base.Ambient, light.Base.Ambient);
             GL.Uniform1(enviromental.Base.Diffuse, light.Base.Diffuse);
@@ -132,7 +132,7 @@ namespace Treg_Engine.Graphics
 
         public static void SetupPointLight(PointLight light, int I)
         {
-            GL.Uniform3(pointLightLocations[I].Base.Color, light.Base.Color);
+            GL.Uniform4(pointLightLocations[I].Base.Color, light.Base.Color);
             GL.Uniform3(pointLightLocations[I].Position, light.Position);
             GL.Uniform1(pointLightLocations[I].Base.Ambient, light.Base.Ambient);
             GL.Uniform1(pointLightLocations[I].Base.Diffuse, light.Base.Diffuse);
@@ -149,7 +149,7 @@ namespace Treg_Engine.Graphics
             GL.Uniform1(spotLightLocations[I].Cutoff, light.Cutoff);
 
 
-            GL.Uniform3(spotLightLocations[I].Base.Base.Color, light.Base.Base.Color);
+            GL.Uniform4(spotLightLocations[I].Base.Base.Color, light.Base.Base.Color);
             GL.Uniform3(spotLightLocations[I].Base.Position, light.Base.Position);
             GL.Uniform1(spotLightLocations[I].Base.Base.Ambient, light.Base.Base.Ambient);
             GL.Uniform1(spotLightLocations[I].Base.Base.Diffuse, light.Base.Base.Diffuse);
@@ -202,7 +202,7 @@ namespace Treg_Engine.Graphics
             shader = Resource.LoadShader("basicrender");
             GL.UseProgram(shader.programID);
             DirectionalLight light;
-            light.Base.Color = new Vector3(0.5f, 0.5f, 0.5f);
+            light.Base.Color = new Vector4(0.5f, 0.5f, 0.5f, 1.0f);
             light.Base.Ambient = 0.5f;
             light.Base.Diffuse = 1f;
             light.Direction = new Vector3(1f, 1f, 1f);

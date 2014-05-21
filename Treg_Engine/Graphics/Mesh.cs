@@ -17,20 +17,15 @@ namespace Treg_Engine.Graphics
         public Vector3 Position;
         public Vector3 Normal;
         public Vector2 UV;
-        public uint Color;
+        public Vector4 Color;
        
 
-        public Vertex(Vector3 Pos, Color color, Vector3 normal, Vector2 uv)
+        public Vertex(Vector3 Pos, Vector4 color, Vector3 normal, Vector2 uv)
         {
             Position = Pos;
             Normal = normal;
             UV = uv;
-            Color = ToRgba(color);
-        }
-
-        static uint ToRgba(Color color)
-        {
-            return (uint)color.A << 24 | (uint)color.B << 16 | (uint)color.G << 8 | (uint)color.R;
+            Color = color;
         }
     }
     public class Mesh
@@ -150,7 +145,7 @@ namespace Treg_Engine.Graphics
                                         int t = Convert.ToInt32(parts[2]);
                                         Normal = Normals[t - 1];
                                     }
-                                    Vertex vert = new Vertex(Position, Color.White, Normal, UV);
+                                    Vertex vert = new Vertex(Position, new Vector4(1f, 1f, 1f, 1f), Normal, UV);
                                     Vertexes.Add(vert);
                                     Telements.Add(pos);
                                     pos++;
@@ -198,8 +193,8 @@ namespace Treg_Engine.Graphics
             GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, true, Vertex.SizeInBytes, 6 * sizeof(float));
 
             //Color
-            GL.EnableVertexAttribArray(4);
-            GL.VertexAttribPointer(4, 4, VertexAttribPointerType.Float, true, Vertex.SizeInBytes, 8 * sizeof(float));
+            GL.EnableVertexAttribArray(3);
+            GL.VertexAttribPointer(3, 4, VertexAttribPointerType.Float, true, Vertex.SizeInBytes, 8 * sizeof(float));
 
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
@@ -213,15 +208,23 @@ namespace Treg_Engine.Graphics
         }
         public void Render(Material mat, Vector3 Origin, Angle Angle, Vector3 Scale)
         {
+            this.Render(mat, Origin, Angle, Scale);
+        }
+        public void Render(Material mat, Vector3 Origin, Angle Angle, Vector3 Scale, Vector4 Color)
+        {
 
             Matrix4 modelmatrix = Matrix4.Identity;
 
             modelmatrix *= Matrix4.CreateScale(Scale);
             modelmatrix *= Angle.RotationMatrix;
             modelmatrix *= Matrix4.CreateTranslation(Origin);
-            this.Render(mat, modelmatrix, View.ProjectionMatrix, View.ViewMatrix);
+            this.Render(mat, modelmatrix, View.ProjectionMatrix, View.ViewMatrix, Color);
         }
         public void Render(Material mat, Matrix4 ModelMatrix, Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)
+        {
+            this.Render(mat, ModelMatrix, ProjectionMatrix, ViewMatrix, Vector4.One);
+        }
+        public void Render(Material mat, Matrix4 ModelMatrix, Matrix4 ProjectionMatrix, Matrix4 ViewMatrix, Vector4 Color)
         {
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -236,7 +239,7 @@ namespace Treg_Engine.Graphics
             GL.VertexPointer(3, VertexPointerType.Float, Vertex.SizeInBytes, (IntPtr)(0));
             GL.NormalPointer(NormalPointerType.Float, Vertex.SizeInBytes, (IntPtr)(3 * sizeof(float)));
             GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex.SizeInBytes, (IntPtr)(6 * sizeof(float)));
-            GL.ColorPointer(4, ColorPointerType.UnsignedByte, Vertex.SizeInBytes, (IntPtr)(8 * sizeof(float)));
+            GL.ColorPointer(3, ColorPointerType.Float, Vertex.SizeInBytes, (IntPtr)(8 * sizeof(float)));
             mat.Bind();
 
             mat.shader.SetUniformMatrix4("ModelMatrix", ModelMatrix);
@@ -244,6 +247,7 @@ namespace Treg_Engine.Graphics
             mat.shader.SetUniformMatrix4("ViewMatrix", ViewMatrix);
             mat.shader.SetUniformFloat("time", Util.Time);
             mat.shader.SetUniformVector3("eyePos", View.EyePos);
+            mat.shader.SetUniformVector4("overrideColor", Color);
             GL.DrawElements(BeginMode.Triangles, this.NumElements, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
             GL.DisableClientState(ArrayCap.VertexArray);

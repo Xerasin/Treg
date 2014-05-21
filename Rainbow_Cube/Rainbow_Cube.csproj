@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ent_skybox.cs" />
+    <Compile Include="Entities\Mountain.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Popcorn.cs" />
     <Compile Include="Entities\Teapot.cs" />
